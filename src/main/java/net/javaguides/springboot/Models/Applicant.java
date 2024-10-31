@@ -23,6 +23,10 @@ public class Applicant extends User {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    public Applicant() {
+        super();
+    }
+
     public Applicant(
             String email,
             String password,
@@ -61,8 +65,5 @@ public class Applicant extends User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-
-    
 
 }

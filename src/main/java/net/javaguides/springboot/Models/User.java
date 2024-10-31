@@ -26,17 +26,20 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false) // Asegúrate de que 'role_id' es el nombre correcto
     private Rol rol; // Esto debe ser de tipo Rol, no Long
 
+    public User() {
+
+    }
+
     public User(
             String email,
             String password,
-            Rol  rol) {
+            Rol rol) {
         this.email = email;
         this.password = password;
         this.rol = rol;
         this.creationDate = LocalDate.now();
     }
 
-    
     public String getEmail() {
         return email;
     }

@@ -50,7 +50,7 @@
             <img src="img/logo-cecati.png" alt="Logo CECATI 86" style="max-width: 40%;">
           </a>
         </div>
-        
+
         <div class="d-flex align-items-center">
           <div class="site-logo mr-auto w-25">
             <a href="index.html">CECATI 86</a>
@@ -61,16 +61,17 @@
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
                 <li><a href="#home-section" class="nav-link">Nosotros</a></li>
                 <li><a href="#courses-section" class="nav-link">Cursos</a></li>
-                <li><a href="#programs-section" class="nav-link">Programs</a></li>
-                <li><a href="#teachers-section" class="nav-link">Teachers</a></li>
+                <li><a href="#programs-section" class="nav-link">Noticias</a></li>
+                <li><a href="#teachers-section" class="nav-link">Ubicación</a></li>
               </ul>
             </nav>
           </div>
 
           <div class="ml-auto w-25">
             <nav class="site-navigation position-relative text-right" role="navigation">
-              <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
-                <li class="cta"><a href="#contact-section" class="nav-link"><span>Contact Us</span></a></li>
+              <ul sec:authorize="isAuthenticated()"
+                class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+                <li class="cta"><a th:href="@{/logout}" class="nav-link"><span>Cerrar Sesión</span></a></li>
               </ul>
             </nav>
             <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span
@@ -82,6 +83,7 @@
     </header>
 
     <div class="intro-section" id="home-section">
+
 
       <div class="slide-1" style="background-image: url('img/hero_1.jpg');" data-stellar-background-ratio="2.5">
         <div class="container">
@@ -98,17 +100,38 @@
 
                 </div>
 
+
+                <div sec:authorize="isAuthenticated()">
+                  <div class="alert alert-info">Bienvenido, <span sec:authentication="principal.username"></span>!
+                  </div>
+                </div>
+
                 <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
-                  <form th:action="@{/registration}" method="post" th:object="${user}" class="form-box">
+                  <form sec:authorize="!isAuthenticated()" th:action="@{/registration}" method="post"
+                    th:object="${user}" class="form-box">
                     <!-- success message -->
                     <div th:if="${param.success}">
                       <div class="alert alert-info">Registro exitoso</div>
                     </div>
 
+                    <!-- logout message -->
+                    <div th:if="${param.logout}">
+                      <div class="alert alert-info">¡Hasta luego!</div>
+                    </div>
+
                     <div th:if="${#fields.hasErrors('birthdate')}" class="alert alert-danger">
                       <span th:errors="*{birthdate}"></span>
-                  </div>
-                  
+                    </div>
+                    <!--names-->
+                    <div th:if="${#fields.hasErrors('names')}" class="alert alert-danger">
+                      <span th:errors="*{names}"></span>
+                    </div>
+
+                    <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+                      <span th:errors="*{email}"></span>
+                    </div>
+
+
                     <h3 class="h4 text-black mb-4">Rgistrarse</h3>
                     <div class="form-group">
                       <input type="text" class="form-control" th:field="*{names}" placeholder="Nombres" required
@@ -116,32 +139,40 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control" th:field="*{surnames}" placeholder="Apellidos">
+                      <input type="text" class="form-control" th:field="*{surnames}" placeholder="Apellidos" required
+                      autofocus="autofocus">
                     </div>
                     <div class="form-group">
-                      <input type="tel" class="form-control" th:field="*{phoneNumber}" placeholder="Teléfono">
+                      <input type="tel" class="form-control" th:field="*{phoneNumber}" placeholder="Teléfono" required
+                      autofocus="autofocus">
                     </div>
 
                     <div class="form-group">
-                      <input type="date" class="form-control" th:field="*{birthdate}" placeholder="Fecha de nacimiento">
-                    </div>
-
-
-                    <div class="form-group">
-                      <input type="text" class="form-control" th:field="*{email}" placeholder="Correo electrónico">
+                      <input type="date" class="form-control" th:field="*{birthdate}" placeholder="Fecha de nacimiento" required
+                      autofocus="autofocus">
                     </div>
 
 
                     <div class="form-group">
-                      <input type="password" class="form-control" th:field="*{password}" placeholder="Password">
+                      <input type="text" class="form-control" th:field="*{email}" placeholder="Correo electrónico" required
+                      autofocus="autofocus">
+                    </div>
+
+
+                    <div class="form-group">
+                      <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required
+                      autofocus="autofocus">
                     </div>
                     <div class="form-group mb-4">
                       <input type="password" class="form-control" th:field="*{repeatedPassword}"
-                        placeholder="Re-type Password">
+                        placeholder="Re-type Password" required
+                        autofocus="autofocus">
                     </div>
                     <div class="form-group">
                       <input type="submit" class="btn btn-primary btn-pill" value="Registrarse">
                     </div>
+
+
 
                     <div class="form-group"></div>
                     <span>¿Ya tienes una cuenta? <a href="/" th:href="@{/login}">Inicia sesión aquí</a></span>
@@ -189,87 +220,7 @@
             </div>
           </div>
 
-          <div class="course bg-white h-100 align-self-stretch">
-            <figure class="m-0">
-              <a href="course-single.html"><img src="images/img_2.jpg" alt="Image" class="img-fluid"></a>
-            </figure>
-            <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$99</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">Logo Design Course</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
-            </div>
-            <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
-            </div>
-          </div>
 
-          <div class="course bg-white h-100 align-self-stretch">
-            <figure class="m-0">
-              <a href="course-single.html"><img src="images/img_3.jpg" alt="Image" class="img-fluid"></a>
-            </figure>
-            <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$99</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">JS Programming Language</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
-            </div>
-            <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
-            </div>
-          </div>
-
-
-
-          <div class="course bg-white h-100 align-self-stretch">
-            <figure class="m-0">
-              <a href="course-single.html"><img src="..images/img_4.jpg" alt="Image" class="img-fluid"></a>
-            </figure>
-            <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$20</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">Study Law of Physics</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
-            </div>
-            <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
-            </div>
-          </div>
-
-          <div class="course bg-white h-100 align-self-stretch">
-            <figure class="m-0">
-              <a href="course-single.html"><img src="images/img_5.jpg" alt="Image" class="img-fluid"></a>
-            </figure>
-            <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$99</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">Logo Design Course</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
-            </div>
-            <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
-            </div>
-          </div>
-
-          <div class="course bg-white h-100 align-self-stretch">
-            <figure class="m-0">
-              <a href="course-single.html"><img src="images/img_6.jpg" alt="Image" class="img-fluid"></a>
-            </figure>
-            <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$99</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">JS Programming Language</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
-            </div>
-            <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
-            </div>
-          </div>
 
         </div>
 
@@ -315,6 +266,7 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.sticky.js"></script>
+  <script src="js/time-fields"></script>
 
 
   <script src="js/main.js"></script>

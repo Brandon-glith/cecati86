@@ -75,7 +75,7 @@
 
         form * {
             font-family: 'Poppins', sans-serif;
-            color: #ffffff;
+            color: #000;
             letter-spacing: 0.5px;
             outline: none;
             border: none;
@@ -177,6 +177,8 @@
         .social i {
             margin-right: 4px;
         }
+
+        
     </style>
 </head>
 
@@ -185,19 +187,28 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form>
+
+
+    <form th:action="@{/verification-code}" method="post">
         <h3>Código de confirmación</h3>
         <label for="code">Código de verificación</label>
-        <div class="verification-code">
-            <input type="text" maxlength="1" class="code-input" />
-            <input type="text" maxlength="1" class="code-input" />
-            <input type="text" maxlength="1" class="code-input" />
-            <input type="text" maxlength="1" class="code-input" />
-            <input type="text" maxlength="1" class="code-input" />
-            <input type="text" maxlength="1" class="code-input" />
+        <div th:if="${param.invalid}">
+            <div class="alert alert-info">¡El código de verificación que ingresaste es incorrecto!</div>
         </div>
 
-        <button>Enviar código</button>
+        <input type="hidden" th:value="${verificationCode}" name="verificationCode" />
+        <div class="verification-code">
+            <input type="text" maxlength="1" class="code-input" name="digit1" />
+            <input type="text" maxlength="1" class="code-input" name="digit2" />
+            <input type="text" maxlength="1" class="code-input" name="digit3" />
+            <input type="text" maxlength="1" class="code-input" name="digit4" />
+            <input type="text" maxlength="1" class="code-input" name="digit5" />
+            <input type="text" maxlength="1" class="code-input" name="digit6" />
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-pill" value="Verificar Código">
+        </div>
 
     </form>
 </body>

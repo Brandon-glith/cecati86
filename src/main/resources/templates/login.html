@@ -3,7 +3,7 @@
 
 <head>
     <!-- Design by foolishdeveloper.com -->
-    <title>verificación de código</title>
+    <title>Iniciar Sesión</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -19,7 +19,7 @@
         }
 
         body {
-            background-color: #eaf0fb;
+            background-color: white;
         }
 
         .background {
@@ -45,6 +45,10 @@
             top: -80px;
         }
 
+        a {
+            color: #000;
+        }
+
         .shape:last-child {
             background: linear-gradient(to right,
                     #ff512f,
@@ -54,7 +58,7 @@
         }
 
         form {
-            height: 520px;
+            height: 580px;
             width: 400px;
             background-color: rgba(255, 255, 255, 0.13);
             position: absolute;
@@ -66,20 +70,14 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
             padding: 50px 35px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
         }
 
         form * {
             font-family: 'Poppins', sans-serif;
-            color: #000;
+            color: #ffffff;
             letter-spacing: 0.5px;
             outline: none;
             border: none;
-
         }
 
         form h3 {
@@ -87,7 +85,7 @@
             font-weight: 500;
             line-height: 42px;
             text-align: center;
-            color: #000;
+            color: black;
         }
 
         label {
@@ -95,7 +93,7 @@
             margin-top: 30px;
             font-size: 16px;
             font-weight: 500;
-            color: #080710;
+            color: black;
         }
 
         input {
@@ -108,23 +106,27 @@
             margin-top: 8px;
             font-size: 14px;
             font-weight: 300;
-            color: #000;
+            color: #080710;
         }
 
         ::placeholder {
-            color: #e5e5e5;
+            color: black;
         }
 
         button {
             margin-top: 50px;
             width: 100%;
-            background-color: #ffffff;
+            background-color: bisque;
             color: #080710;
             padding: 15px 0;
             font-size: 18px;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        .alert alert-danger {
+            color: #000;
         }
 
         .social {
@@ -142,32 +144,20 @@
             text-align: center;
         }
 
-        .verification-code {
-            display: flex;
-            gap: 10px;
-            /* Separación entre las casillas de código */
-            justify-content: center;
+        #error-login {
+            color: #000;
         }
 
+        span {
+            color: #000;
+        }
+
+        .form-group a {
+            color: black;
+        }
 
         .social div:hover {
             background-color: rgba(255, 255, 255, 0.47);
-        }
-
-        .code-input {
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            text-align: center;
-            border-radius: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background-color: navajowhite;
-            color: #000;
-            outline: none;
-        }
-
-        .code-input:focus {
-            border: 2px solid #fff;
         }
 
         .social .fb {
@@ -177,8 +167,6 @@
         .social i {
             margin-right: 4px;
         }
-
-        
     </style>
 </head>
 
@@ -188,29 +176,46 @@
         <div class="shape"></div>
     </div>
 
-
-    <form th:action="@{/verification-code}" method="post">
-        <h3>Código de confirmación</h3>
-        <label for="code">Código de verificación</label>
-        <div th:if="${param.invalid}">
-            <div class="alert alert-info">¡El código de verificación que ingresaste es incorrecto!</div>
-        </div>
-
-        <input type="hidden" th:value="${verificationCode}" name="verificationCode" />
-        <div class="verification-code">
-            <input type="text" maxlength="1" class="code-input" name="digit1" />
-            <input type="text" maxlength="1" class="code-input" name="digit2" />
-            <input type="text" maxlength="1" class="code-input" name="digit3" />
-            <input type="text" maxlength="1" class="code-input" name="digit4" />
-            <input type="text" maxlength="1" class="code-input" name="digit5" />
-            <input type="text" maxlength="1" class="code-input" name="digit6" />
+    <form th:action="@{/login}" method="post">
+        <h3>Iniciar Sesión</h3>
+        <!-- error message -->
+        <div th:if="${param.error}">
+            <div id="error-login" class="alert alert-danger">¡Error de inicio de sesión!
+                <br>
+                ¡Revisar que email y contraseña sean validas!
+            </div>
+            
         </div>
 
         <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-pill" value="Verificar Código">
+            <label for="username"> Username </label> :
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Email ID"
+                autofocus="autofocus">
         </div>
 
+        <div class="form-group">
+            <label for="password">Password</label>: <input type="password" id="password" name="password"
+                class="form-control" placeholder="Enter Password" />
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit" name="login-submit" id="login-submit" class="form-control btn btn-primary"
+                        value="Log In" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span>¿Nuevo usuario? <a href="/" th:href="@{/registration}">Register
+                    here</a></span>
+        </div>
     </form>
+
+    </form>
+
+
 </body>
 
 </html>

@@ -6,7 +6,11 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import net.javaguides.springboot.ApplicationLayer.UniqueEmail;
 import net.javaguides.springboot.ApplicationLayer.ValidAge;
+import net.javaguides.springboot.ApplicationLayer.ValidEmail;
+//import net.javaguides.springboot.ApplicationLayer.ValidEmail;
+import net.javaguides.springboot.ApplicationLayer.ValidName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -14,15 +18,19 @@ import javax.validation.constraints.NotNull;
 
 public class UserRegistrationDTO {
     @NotEmpty(message = "Names are required")
+    @ValidName
     private String names;
     @NotEmpty(message = "Surnames are required")
+    @ValidName
     private String surnames;
-    @Email(message = "Please provide a valid email")
+    
     @NotEmpty(message = "Email is required")
+    @ValidEmail
+    @UniqueEmail
     private String email;
     private String password;
     private String repeatedPassword;
-    
+
     @ValidAge(message = "¡Debes tener por lo menos 15 años para causar registro!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;

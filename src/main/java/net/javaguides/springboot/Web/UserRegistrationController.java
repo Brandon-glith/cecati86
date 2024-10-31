@@ -1,5 +1,6 @@
 package net.javaguides.springboot.Web;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class UserRegistrationController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private HttpSession session;
+
     public UserRegistrationController(
             InterfaceUserService userService) {
         this.userService = userService;
@@ -40,26 +44,25 @@ public class UserRegistrationController {
         return "registration";
     }
 
-    @GetMapping("verification")
-    public String getMethodName(@RequestParam String param) {
-        return "verification";
-    }
-    
-
     @PostMapping
     public String registerUserAccount(
             @ModelAttribute("user") @Valid UserRegistrationDTO registrationDTO,
-            BindingResult result) {
+            BindingResult result, Model model) {
         if (result.hasErrors()) {
+            System.out.println("Errores de validación: " + result.getAllErrors());
             return "registration";
         }
-        userService.save(registrationDTO);
+
         String verificationCode = emailService.generateVerificationCode();
         emailService.sendVerificationEmail(
                 registrationDTO.getEmail(),
                 verificationCode);
 
-        return "redirect:/registration?success";
+        session.setAttribute("user", registrationDTO);
+        session.setAttribute("verificationCode", verificationCode);
+        // userService.save(registrationDTO);
+
+        return "redirect:/verification-code";
     }
 
 }
