@@ -176,21 +176,22 @@
         <div class="shape"></div>
     </div>
 
-    <form th:action="@{/login}" method="post">
+    <form id="login-form-send" th:action="@{/login}" method="post">
         <h3>Iniciar Sesión</h3>
         <!-- error message -->
         <div th:if="${param.error}">
+
             <div id="error-login" class="alert alert-danger">¡Error de inicio de sesión!
                 <br>
                 ¡Revisar que email y contraseña sean validas!
             </div>
-            
         </div>
+
 
         <div class="form-group">
             <label for="username"> Username </label> :
-            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Email ID"
-                autofocus="autofocus">
+            <input type="email" class="form-control" id="username" name="username" th:value="${param.username}"
+                placeholder="Correo electrónico" autofocus="autofocus">
         </div>
 
         <div class="form-group">
@@ -202,20 +203,107 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     <input type="submit" name="login-submit" id="login-submit" class="form-control btn btn-primary"
-                        value="Log In" />
+                        value="Iniciar Sesión" />
                 </div>
             </div>
         </div>
 
+
         <div class="form-group">
-            <span>¿Nuevo usuario? <a href="/" th:href="@{/registration}">Register
-                    here</a></span>
+            <span>¿Nuevo usuario? <a href="/" th:href="@{/registration}">Registrar
+                    aquí</a></span>
         </div>
-    </form>
+
+        <div class="form-group" id="recover-password" style="display: none;">
+            <span>Recuperar contraseña <a href="#" onclick="redirectToRecoverPassword()"
+                    id="recover-password-link">Click
+                    aquí</a></span>
+        </div>
+
+
 
     </form>
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        let urlParams = "";
+        $(document).ready(function () {
+            const request = localStorage.getItem("request");
+
+
+            //const username = urlParams.get('username');
+            urlParams = new URLSearchParams(window.location.search);
+            if (urlParams == "") {
+                localStorage.removeItem("showRecoverPassword");
+            }
+
+            if (urlParams.has('error')) {
+                if (request == "false") {
+                    localStorage.removeItem("showRecoverPassword");
+                }
+                localStorage.setItem("request", 'false');
+            }
+
+
+
+            if (localStorage.getItem("showRecoverPassword") === "true") {
+                $("#recover-password").show();
+            } else {
+                $("#recover-password").hide();
+            }
+
+            $("#login-submit").on('click', function (event) {
+                event.preventDefault(); // Evita el envío inmediato del formulario
+                const email = $('#username').val();
+                localStorage.setItem("request", 'false');
+                $.ajax({
+                    url: "/check-email",
+                    type: "GET",
+                    data: { email: email },
+                    success: function (data) {
+                        localStorage.setItem("request", 'true');
+                        if (data == false) {
+                            // El email existe, mostrar "Recuperar contraseña"
+                            $("#recover-password").show();
+                            localStorage.setItem("showRecoverPassword", "true");
+                            localStorage.setItem("email", email);
+                        } else {
+                            // El email no existe, ocultar "Recuperar contraseña"
+                            $("#recover-password").hide();
+                            localStorage.setItem("showRecoverPassword", "false");
+                        }
+
+                        $("#login-form-send").submit();
+
+                    },
+                    error: function (error) {
+                        console.error("Error checking email:", error);
+                    }
+                });
+            });
+        });
+
+
+        function redirectToRecoverPassword() {
+            // Captura el correo de localStorage
+            const email = localStorage.getItem("email");
+
+            if (email) {
+                // Construye la URL con el parámetro
+                const url = `/recover-password/request?email=${encodeURIComponent(email)}`;
+
+                // Redirige al usuario a la URL
+                window.location.href = url;
+            } else {
+                alert("No se encontró un correo en el almacenamiento local.");
+            }
+        }
+    </script>
 </body>
+
+
 
 </html>

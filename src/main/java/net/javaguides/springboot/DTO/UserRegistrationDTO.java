@@ -11,6 +11,8 @@ import net.javaguides.springboot.ApplicationLayer.ValidAge;
 import net.javaguides.springboot.ApplicationLayer.ValidEmail;
 //import net.javaguides.springboot.ApplicationLayer.ValidEmail;
 import net.javaguides.springboot.ApplicationLayer.ValidName;
+import net.javaguides.springboot.ApplicationLayer.ValidPassword;
+import net.javaguides.springboot.ApplicationLayer.ValidPhone;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -21,19 +23,22 @@ public class UserRegistrationDTO {
     @ValidName
     private String names;
     @NotEmpty(message = "Surnames are required")
-    @ValidName
+    @ValidName(message = "Inserte apellidos validos")
     private String surnames;
-    
+
     @NotEmpty(message = "Email is required")
     @ValidEmail
     @UniqueEmail
     private String email;
+    @ValidPassword
     private String password;
+    @ValidPassword
     private String repeatedPassword;
 
     @ValidAge(message = "¡Debes tener por lo menos 15 años para causar registro!")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
+    @ValidPhone
     @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
     private String phoneNumber;
 

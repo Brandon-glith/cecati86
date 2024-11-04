@@ -32,16 +32,6 @@ public class UserServiceImplementation implements InterfaceUserService {
     @Autowired
     private BCryptPasswordEncoder eBCryptPasswordEncoder;
 
-    
-
-    public UserServiceImplementation(
-            InterfaceUserRepository userRepository,
-            InterfaceRolRepository rolRepository) {
-        super();
-        this.userRepository = userRepository;
-        this.rolRepository = rolRepository;
-    }
-
     @Override
     public Applicant save(UserRegistrationDTO registrationDTO) {
         Optional<Rol> optionalRol = rolRepository.findById(1L);
@@ -90,7 +80,10 @@ public class UserServiceImplementation implements InterfaceUserService {
          **/
         return new CustomUserDetails(user);
     }
-    // User user = interfaceUserRepository.findByEmail(email);
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+    // User user = interfaceUserRepository.findByEmail(email);
 
 }

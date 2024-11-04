@@ -85,12 +85,17 @@
     <div class="intro-section" id="home-section">
 
 
+
       <div class="slide-1" style="background-image: url('img/hero_1.jpg');" data-stellar-background-ratio="2.5">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-12">
               <div class="row align-items-center">
                 <div class="col-lg-6 mb-4">
+                  <div sec:authorize="isAuthenticated()">
+                    <div class="alert alert-info">Bienvenido, <span sec:authentication="principal.username"></span>!
+                    </div>
+                  </div>
                   <h1 data-aos="fade-up" data-aos-delay="100">Capacítate para el empleo de tus sueños, empieza hoy</h1>
                   <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Misión: Otorgar a los particulares el
                     reconocimiento de validez oficial de estudios, contribuyendo al fomento de la calidad y
@@ -101,10 +106,7 @@
                 </div>
 
 
-                <div sec:authorize="isAuthenticated()">
-                  <div class="alert alert-info">Bienvenido, <span sec:authentication="principal.username"></span>!
-                  </div>
-                </div>
+
 
                 <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
                   <form sec:authorize="!isAuthenticated()" th:action="@{/registration}" method="post"
@@ -119,18 +121,62 @@
                       <div class="alert alert-info">¡Hasta luego!</div>
                     </div>
 
-                    <div th:if="${#fields.hasErrors('birthdate')}" class="alert alert-danger">
+                    <div th:if="${param.different}" id="error-passwords">
+                      <div class="alert alert-danger">¡Las contraseñas son diferentes!</div>
+                    </div>
+
+
+                    <div th:if="${#fields.hasErrors('birthdate')}" id="error-birthdate" class="alert alert-danger">
                       <span th:errors="*{birthdate}"></span>
                     </div>
                     <!--names-->
-                    <div th:if="${#fields.hasErrors('names')}" class="alert alert-danger">
+                    <div th:if="${#fields.hasErrors('names')}" id="error-names" class="alert alert-danger">
                       <span th:errors="*{names}"></span>
                     </div>
+                    <!--surnames-->
+                    <div th:if="${#fields.hasErrors('surnames')}" id="error-surnames" class="alert alert-danger">
+                      <span th:errors="*{surnames}"></span>
+                    </div>
 
-                    <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+                    <!--phone number-->
+                    <div th:if="${#fields.hasErrors('phoneNumber')}" id="error-phone" class="alert alert-danger">
+                      <span th:errors="*{phoneNumber}"></span>
+                    </div>
+                    <!--Password-->
+                    <div th:if="${#fields.hasErrors('password')}" id="error-invalid-password"
+                      class="alert alert-danger">
+                      <span th:errors="*{password}"></span>
+                    </div>
+                    <!--email-->
+                    <div th:if="${#fields.hasErrors('email')}" id="error-email" class="alert alert-danger">
                       <span th:errors="*{email}"></span>
                     </div>
 
+                    <script>
+                      document.addEventListener("DOMContentLoaded", function () {
+                        setTimeout(function () {
+                          const errorNames = document.getElementById('error-names');
+                          const errorSurNames = document.getElementById('error-surnames');
+                          const errorEmail = document.getElementById('error-email');
+                          const errorPhone = document.getElementById('error-phone');
+                          const errorBirthdate = document.getElementById('error-birthdate');
+                          const errorPasswords = document.getElementById('error-passwords');
+                          const errorWeakPassword = document.getElementById('error-invalid-password');
+
+                          //error-invalid-password
+
+                          if (errorNames) errorNames.style.display = 'none';
+                          if (errorSurNames) errorSurNames.style.display = 'none';
+                          if (errorEmail) errorEmail.style.display = 'none';
+                          if (errorPhone) errorPhone.style.display = 'none';
+                          if (errorBirthdate) errorBirthdate.style.display = 'none';
+                          if (errorPasswords) errorPasswords.style.display = 'none';
+                          if (errorWeakPassword) errorWeakPassword.style.display = 'none';
+
+
+                        }, 5000);
+                      });
+                    </script>
 
                     <h3 class="h4 text-black mb-4">Rgistrarse</h3>
                     <div class="form-group">
@@ -140,33 +186,32 @@
 
                     <div class="form-group">
                       <input type="text" class="form-control" th:field="*{surnames}" placeholder="Apellidos" required
-                      autofocus="autofocus">
+                        autofocus="autofocus">
                     </div>
                     <div class="form-group">
                       <input type="tel" class="form-control" th:field="*{phoneNumber}" placeholder="Teléfono" required
-                      autofocus="autofocus">
+                        autofocus="autofocus">
                     </div>
 
                     <div class="form-group">
-                      <input type="date" class="form-control" th:field="*{birthdate}" placeholder="Fecha de nacimiento" required
-                      autofocus="autofocus">
+                      <input type="date" class="form-control" th:field="*{birthdate}" placeholder="Fecha de nacimiento"
+                        required autofocus="autofocus">
                     </div>
 
 
                     <div class="form-group">
-                      <input type="text" class="form-control" th:field="*{email}" placeholder="Correo electrónico" required
-                      autofocus="autofocus">
+                      <input type="text" class="form-control" th:field="*{email}" placeholder="Correo electrónico"
+                        required autofocus="autofocus">
                     </div>
 
 
                     <div class="form-group">
                       <input type="password" class="form-control" th:field="*{password}" placeholder="Password" required
-                      autofocus="autofocus">
+                        autofocus="autofocus">
                     </div>
                     <div class="form-group mb-4">
                       <input type="password" class="form-control" th:field="*{repeatedPassword}"
-                        placeholder="Re-type Password" required
-                        autofocus="autofocus">
+                        placeholder="Re-type Password" required autofocus="autofocus">
                     </div>
                     <div class="form-group">
                       <input type="submit" class="btn btn-primary btn-pill" value="Registrarse">
@@ -204,23 +249,26 @@
 
         <div class="owl-carousel col-12 nonloop-block-14">
 
-          <div class="course bg-white h-100 align-self-stretch">
+          <div class="course bg-white h-100 align-self-stretch" th:each="course : ${courses}">
             <figure class="m-0">
-              <a href="course-single.html"><img src="img/img_1.jpg" alt="Image" class="img-fluid"></a>
+              <a href="course-single.html">
+                <img th:src="@{${course.imagePath}}" alt="Course Image" class="img-fluid">
+              </a>
             </figure>
             <div class="course-inner-text py-4 px-4">
-              <span class="course-price">$20</span>
-              <div class="meta"><span class="icon-clock-o"></span>4 Lessons / 12 week</div>
-              <h3><a href="#">Study Law of Physics</a></h3>
-              <p>Lorem ipsum dolor sit amet ipsa nulla adipisicing elit. </p>
+              <span class="course-price" th:text="'$' + ${course.cost}"></span>
+              <div class="meta">
+                <span class="icon-clock-o"></span>
+                <span th:text="${course.durationHours} + ' hours'"></span>
+              </div>
+              <h3><a href="#" th:text="${course.courseName}"></a></h3>
+              <p th:text="${course.description}"></p>
             </div>
             <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> 2,193 students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> 2</div>
+              <div class="py-3 px-4"><span class="icon-users"></span> Students</div>
+              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> Comments</div>
             </div>
           </div>
-
-
 
         </div>
 
@@ -266,7 +314,6 @@
   <script src="js/aos.js"></script>
   <script src="js/jquery.fancybox.min.js"></script>
   <script src="js/jquery.sticky.js"></script>
-  <script src="js/time-fields"></script>
 
 
   <script src="js/main.js"></script>

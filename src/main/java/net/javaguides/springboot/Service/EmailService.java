@@ -19,13 +19,14 @@ public class EmailService {
         return String.valueOf(code);
     }
 
-    public void sendVerificationEmail(String toEmail, String verificationCode) {
+    public void sendVerificationEmail(
+            String toEmail,
+            String verificationCode, String messageToSend) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
         message.setSubject("Código de Verificación");
         message.setText(
-                "Tu código de verificación "
-                        + "para creación de cuenta es: "
+                messageToSend
                         + verificationCode);
         message.setFrom("cecati773@gmail.com");
 

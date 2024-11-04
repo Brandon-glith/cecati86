@@ -13,12 +13,12 @@ import net.javaguides.springboot.Service.UserServiceImplementation;
 public class EmailDuplicateChecker implements ConstraintValidator<UniqueEmail, String> {
 
     @Autowired
-    private InterfaceUserRepository interfaceUserRepository;
+    UserServiceImplementation implementation;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
 
-        User user = interfaceUserRepository.findByEmail(email);
+        User user = implementation.findByEmail(email);
 
         if (user != null && user.getEmail().equals(
                 email)) {
