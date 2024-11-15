@@ -77,6 +77,7 @@ public class VerificationController {
                 String action = (String) session.getAttribute(
                                 "action");
                 String email = (String) session.getAttribute("email");
+                Long idRol = (Long) session.getAttribute("idRol");
                 model.addAttribute(
                                 "user",
                                 user);
@@ -101,18 +102,15 @@ public class VerificationController {
                         case "register":
                                 UserRegistrationDTO registrationDTO = (UserRegistrationDTO) model.getAttribute(
                                                 "user");
-                                userService.save(registrationDTO);
+                                userService.save(registrationDTO, idRol);
                                 return "redirect:/registration?success";
                         case "changePassword":
-                                
+
                                 break;
                         default:
                                 break;
                 }
 
-                if (action.equals("changePassword")) {
-
-                }
                 return "redirect:/verification-code?error";
         }
 

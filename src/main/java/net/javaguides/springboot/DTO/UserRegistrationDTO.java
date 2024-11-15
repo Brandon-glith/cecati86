@@ -6,6 +6,8 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import net.javaguides.springboot.ApplicationLayer.AdvancedValidationGroup;
+import net.javaguides.springboot.ApplicationLayer.BasicValidationGroup;
 import net.javaguides.springboot.ApplicationLayer.UniqueEmail;
 import net.javaguides.springboot.ApplicationLayer.ValidAge;
 import net.javaguides.springboot.ApplicationLayer.ValidEmail;
@@ -19,27 +21,27 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class UserRegistrationDTO {
-    @NotEmpty(message = "Names are required")
-    @ValidName
+    @NotEmpty(message = "Names are required", groups = BasicValidationGroup.class)
+    @ValidName(groups = BasicValidationGroup.class)
     private String names;
-    @NotEmpty(message = "Surnames are required")
-    @ValidName(message = "Inserte apellidos validos")
+    @NotEmpty(message = "Surnames are required", groups = BasicValidationGroup.class)
+    @ValidName(message = "Inserte apellidos validos", groups = BasicValidationGroup.class)
     private String surnames;
 
-    @NotEmpty(message = "Email is required")
-    @ValidEmail
-    @UniqueEmail
+    @NotEmpty(message = "Email is required", groups = BasicValidationGroup.class)
+    @ValidEmail(groups = BasicValidationGroup.class)
+    @UniqueEmail(groups = BasicValidationGroup.class)
     private String email;
-    @ValidPassword
+    @ValidPassword(groups = BasicValidationGroup.class)
     private String password;
-    @ValidPassword
+    @ValidPassword(groups = BasicValidationGroup.class)
     private String repeatedPassword;
 
-    @ValidAge(message = "¡Debes tener por lo menos 15 años para causar registro!")
+    @ValidAge(message = "¡Debes tener por lo menos 15 años para causar registro!", groups = AdvancedValidationGroup.class)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
-    @ValidPhone
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
+    @ValidPhone(groups = AdvancedValidationGroup.class)
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid", groups = AdvancedValidationGroup.class)
     private String phoneNumber;
 
     public UserRegistrationDTO() {

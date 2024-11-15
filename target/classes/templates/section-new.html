@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel de Imágenes con Navegación por Teclado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-file-upload {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #333;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e0e0e0;
+        }
+
+        .custom-file-upload i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .delete-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ff4d4d;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #fff;
+            background-color: #ff4d4d;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #ff3333;
+        }
+
+        .delete-button i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .carousel-item {
+            height: 40%;
+        }
+
+        .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel"  >
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/img/english-course.png" class="d-block w-100" alt="Imagen 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="371777340_712520857554608_1540025047082082793_n.jpg" class="d-block w-100" alt="Imagen 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="" class="d-block w-100" alt="Imagen 3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary me-2" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                Anterior
+            </button>
+            <button class="btn btn-primary" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                Siguiente
+            </button>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            const carousel = new bootstrap.Carousel(document.getElementById('imageCarousel'));
+            if (event.key === 'ArrowLeft') {
+                carousel.prev();
+            } else if (event.key === 'ArrowRight') {
+                carousel.next();
+            }
+        });
+    </script>
+</body>
+
+</html>

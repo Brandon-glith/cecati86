@@ -18,6 +18,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "names")
+    private String name;
+    @Column(name = "surnames")
+    private String lastName;
     private String email;
     private String password;
     private LocalDate creationDate;
@@ -26,17 +30,26 @@ public class User {
     @JoinColumn(name = "role_id", nullable = false) // Asegúrate de que 'role_id' es el nombre correcto
     private Rol rol; // Esto debe ser de tipo Rol, no Long
 
-    public User() {
+    public User(String name,
+            String lastName,
+            String email, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.creationDate = LocalDate.now();
 
+    }
+
+    public User() {
+        this.creationDate = LocalDate.now();
     }
 
     public User(
             String email,
-            String password,
-            Rol rol) {
+            String password) {
         this.email = email;
         this.password = password;
-        this.rol = rol;
         this.creationDate = LocalDate.now();
     }
 
@@ -70,6 +83,22 @@ public class User {
 
     public void setLastDateStartSession(LocalDate lastDateStartSession) {
         this.lastDateStartSession = lastDateStartSession;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
 }

@@ -12,16 +12,16 @@ import net.javaguides.springboot.Models.Applicant;
 import net.javaguides.springboot.Models.User;
 
 public class CustomUserDetails implements UserDetails {
-    private Applicant user;
-    
-    public CustomUserDetails(Applicant user) {
+    private User user;
+
+    public CustomUserDetails(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
-        
+
         return List.of(new SimpleGrantedAuthority(user.getRol().getName()));
     }
 

@@ -42,4 +42,6 @@ public interface InterfaceCourse {
     void setImagePath(String imagePath); // Set the image path
 
     byte getAspirantLimit();
+
+    void setAspirantLimit(byte limit);
 }

@@ -3,16 +3,21 @@ package net.javaguides.springboot.DTO;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class CourseDTO {
 
     private String courseName;
     private String description;
     private int durationHours;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate; // Fecha de inicio
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate; // Fecha de terminación
     private BigDecimal cost;
     private String courseType;
     private String imagePath;
+    private byte aspirantLimit;
 
     // Getters y Setters
 
@@ -79,4 +84,28 @@ public class CourseDTO {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+    @Override
+    public String toString() {
+        return "CourseDTO{\n" +
+                "courseName: '" + getCourseName() + "'\n" +
+                "description: '" + getDescription() + "'\n" +
+                "durationHours: " + getDurationHours() + "\n" +
+                "startDate: " + getStartDate() + "\n" +
+                "endDate: " + getEndDate() + "\n" +
+                "cost: " + getCost().doubleValue() + "\n" +
+                "courseType: '" + getCourseType() + "'\n" +
+                "imagePath: '" + getImagePath() + "'\n" +
+                "ASPIRANT_LIMIT: " + getAspirantLimit() + "\n" +
+                '}';
+    }
+
+    public byte getAspirantLimit() {
+        return aspirantLimit;
+    }
+
+    public void setAspirantLimit(byte aspirantLimit) {
+        this.aspirantLimit = aspirantLimit;
+    }
+
 }

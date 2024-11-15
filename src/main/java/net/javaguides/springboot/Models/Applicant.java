@@ -18,10 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity // Esta anotación es necesaria para las entidades
 @DiscriminatorValue("APPLICANT") // Valor que se usará para distinguir Applicants en la tabla
 public class Applicant extends User {
-    @Column(name = "names")
-    private String name;
-    @Column(name = "surnames")
-    private String lastName;
+
     @Column(name = "birthdate")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthdate;
@@ -31,31 +28,22 @@ public class Applicant extends User {
     @JoinTable(name = "applicant_course", joinColumns = @JoinColumn(name = "applicant_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courses = new HashSet<>();
 
+    public Applicant(
+            String name,
+            String lastName,
+            String email,
+            String password) {
+        super(name, lastName, email, password);
+    }
+
     public Applicant() {
         super();
     }
 
     public Applicant(
             String email,
-            String password,
-            Rol rol) {
-        super(email, password, rol);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+            String password) {
+        super(email, password);
     }
 
     public LocalDate getBirthdate() {

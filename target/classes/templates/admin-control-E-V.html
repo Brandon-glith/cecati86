@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard para departamentos</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #fff;
+      border-right: 1px solid #ddd;
+    }
+
+    .sidebar a {
+      color: #495057;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background-color: #f1f1f1;
+      border-radius: 0.25rem;
+    }
+
+    .header {
+      margin-left: 250px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      padding: 2rem;
+    }
+
+    .table-responsive {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar p-3">
+    <h1 class="fs-4 fw-bold text-dark">Panel</h1>
+    <nav>
+      <a th:href="@{/register-course}">
+        <i class="bi bi-file-earmark-text"></i>
+        Registrar Curso
+      </a>
+      <a th:href="@{/upload-new}">
+        <i class="bi bi-bell"></i>
+        Subir Noticias
+      </a>
+      <a href="/documents">
+        <i class="bi bi-people"></i>
+        Documentos Aspirantes
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="header p-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-primary">
+            <i class="cta"><a th:href="@{/logout}" class="nav-link"><span>Cerrar Sesión</span></a></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fs-5 fw-bold">Vista General</h2>
+      <button class="btn btn-primary">
+        <i class="bi bi-plus"><a th:href="@{/register-course}" class="nav-link"><span>Nuevo curso</span></a></i>
+      </button>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Cursos Totales</span>
+              <i class="bi bi-file-earmark-text text-muted"></i>
+            </div>
+            <h4 th:text="${totalCourses}" class="fw-bold mb-1">18</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Aspirantes Activos</span>
+              <i class="bi bi-people text-muted"></i>
+            </div>
+            <h4 class="fw-bold mb-1">132</h4>
+            <small class="text-muted">28 nuevos</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Documentos Pendientes</span>
+              <i class="bi bi-file-earmark-text text-muted"></i>
+            </div>
+            <h4 class="fw-bold mb-1">12</h4>
+            <small class="text-muted">5 revisados</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Courses Table -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Cursos Activos</h5>
+      </div>
+      <div class="card-body p-0 table-responsive">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Nombre del Curso</th>
+              <th>Duración</th>
+              <th>Fecha de inicio</th>
+              <th>Fecha de terminación</th>
+              <th>Tipo</th>
+              <th>Costo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <!--<td><span class="badge bg-success">Activo</span></td>-->
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <!--<td><span class="badge bg-warning text-dark">Pendiente</span></td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import net.javaguides.springboot.ApplicationLayer.ValidationSequence;
 import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Service.CourseService;
 import net.javaguides.springboot.Service.EmailService;
@@ -52,7 +54,7 @@ public class UserRegistrationController {
 
     @PostMapping
     public String registerUserAccount(
-            @ModelAttribute("user") @Valid UserRegistrationDTO registrationDTO,
+            @ModelAttribute("user") @Validated(ValidationSequence.class) UserRegistrationDTO registrationDTO,
             BindingResult result, Model model) {
 
         if (result.hasErrors()) {
@@ -74,6 +76,7 @@ public class UserRegistrationController {
         session.setAttribute("user", registrationDTO);
         session.setAttribute("verificationCode", verificationCode);
         session.setAttribute("action", "register");
+        session.setAttribute("idRol", 1L);
         // userService.save(registrationDTO);
 
         return "redirect:/verification-code";

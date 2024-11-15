@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPassword {
-    String message() default "La contraseña es debil!";
+    String message() default "¡La contraseña es debil!";
 
     Class<?>[] groups() default {};
 

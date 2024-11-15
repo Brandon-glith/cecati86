@@ -7,9 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import net.javaguides.springboot.Service.CourseService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/courses")
-public class CourseController {
+@RequestMapping("/view-new")
+public class ControllerViewNews {
+
+    @GetMapping
+    public String getMethodName() {
+        return "section-new";
+    }
 
 }

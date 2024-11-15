@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Curso</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: padding 0.3s;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        form {
+            display: grid;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        .custom-file-upload {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #333;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e0e0e0;
+        }
+
+        .custom-file-upload i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dialog-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .dialog-header h2 {
+            margin-top: 0;
+        }
+
+        .dialog-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-cancel,
+        .btn-confirm {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-confirm {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            input,
+            textarea,
+            select,
+            button {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+                text-align: center;
+            }
+
+            form {
+                gap: 15px;
+            }
+
+            input,
+            textarea,
+            select,
+            button {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Registro de Curso</h1>
+        <form id="courseForm" th:action="@{/register-course}" method="post" th:object="${course}"
+            enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="courseName">Nombre del Curso:</label>
+                <input type="text" id="courseName" th:field="*{courseName}" placeholder="Nombre del Curso"
+                    class="form-control" required autofocus="autofocus">
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción:</label>
+                <textarea id="description" th:field="*{description}" placeholder="Descripción del curso"
+                    class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="durationHours">Duración (horas):</label>
+                <input type="number" id="durationHours" th:field="*{durationHours}" placeholder="Duración en horas"
+                    class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="aspirantLimit">Límite de cupos:</label>
+                <input type="number" id="aspirantLimit" th:field="*{aspirantLimit}" placeholder="Límite de cupos"
+                    class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Fecha de Inicio:</label>
+                <input type="date" id="startDate" th:field="*{startDate}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">Fecha de Finalización:</label>
+                <input type="date" id="endDate" th:field="*{endDate}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="cost">Costo:</label>
+                <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 5px;">$</span>
+                    <input type="number" id="cost" th:field="*{cost}" step="0.01" placeholder="Costo"
+                        class="form-control" required style="flex: 1;">
+                    <span style="margin-left: 5px;">MXN</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="courseType">Tipo de Curso:</label>
+                <select id="courseType" th:field="*{courseType}" class="form-control" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option value="EXT">EXT</option>
+                    <option value="REG">REG</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="imagePath">Subir imagen del curso:</label>
+                <label for="imagePath" class="custom-file-upload">
+                    <i class="fas fa-folder-open"></i> Seleccionar archivo
+                </label>
+                <input type="file" id="imagePath" name="file" style="display: none;" accept=".jpg, .jpeg, .png">
+            </div>
+            <button type="submit" id="btn-submit-form" class="btn btn-primary">Registrar Curso</button>
+        </form>
+
+
+        <div id="dialog" class="dialog">
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <h2>Confirmar registro</h2>
+                    <p>¿Está seguro que quiere registrar el curso con estos datos?</p>
+                </div>
+                <div class="dialog-footer">
+                    <button id="btn-cancel-send" class="btn-cancel">Cancelar</button>
+                    <button id="btn-confirm-send" class="btn-confirm">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let confirm = false;
+        let fileInput;
+        let file;
+        let formData;
+
+        document.getElementById('courseForm').addEventListener('submit', async function (e) {
+
+            e.preventDefault();
+
+            fileInput = document.getElementById('imagePath');
+            file = fileInput.files[0];
+            formData = new FormData();
+            formData.append('file', file);
+
+            const value = await openDialog();
+            if (value) {
+                try {
+                    const response = await fetch('/upload-image', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        alert("The response is different of ok: " + await response.text());
+                        throw new Error('Error al subir la imagen');
+                    }
+
+                    const imagePath = await response.text();
+
+                    // Create a hidden input to store the image path
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'imagePath';
+                    hiddenInput.value = imagePath;
+                    this.appendChild(hiddenInput);
+                } catch (error) {
+                    console.error('Error:', error);
+
+                    alert('Error al subir la imagen');
+                    return;
+                }
+
+                // Submit the form normally for the rest of the fields
+                document.getElementById("courseForm").submit();
+            }
+
+
+        });
+
+
+
+
+        document.getElementById("btn-confirm-send").addEventListener('click', function () {
+            confirm(true);
+        });
+
+        document.getElementById("btn-cancel-send").addEventListener('click', function () {
+            confirm(false);
+        });
+
+        function openDialog() {
+            return new Promise((resolve) => {
+                document.getElementById('dialog').style.display = 'flex';
+
+                confirm = (answer) => {
+                    closeDialog();
+                    resolve(answer);
+                }
+            });
+
+        }
+
+        function closeDialog() {
+            document.getElementById('dialog').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

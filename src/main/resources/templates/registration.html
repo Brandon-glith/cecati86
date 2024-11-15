@@ -61,8 +61,8 @@
               <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
                 <li><a href="#home-section" class="nav-link">Nosotros</a></li>
                 <li><a href="#courses-section" class="nav-link">Cursos</a></li>
-                <li><a href="#programs-section" class="nav-link">Noticias</a></li>
-                <li><a href="#teachers-section" class="nav-link">Ubicación</a></li>
+                <li><a href="#new-section" class="nav-link">Noticias</a></li>
+                <li><a href="#location" class="nav-link">Ubicación</a></li>
               </ul>
             </nav>
           </div>
@@ -102,7 +102,12 @@
                     productividad empresarial, la incorporación al mercado laboral y el desarrollo de la vocación
                     empresarial</p>
 
-
+                  <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Visión: Ser en el ámbito nacional la
+                    institución líder
+                    de los servicios de formación de recursos humanos competentes que demanda el mercado laboral en las
+                    principales actividades productivas y servicios procurando que sus egresados opten por la
+                    certificación laboral, de que le garantice su ingreso y desempeño exitoso en alguna ocupación y
+                    satisfaga tanto sus expectativas profesionales como personales.</p>
                 </div>
 
 
@@ -111,6 +116,8 @@
                 <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
                   <form sec:authorize="!isAuthenticated()" th:action="@{/registration}" method="post"
                     th:object="${user}" class="form-box">
+
+                    <input type="hidden" name="source" value="registration">
                     <!-- success message -->
                     <div th:if="${param.success}">
                       <div class="alert alert-info">Registro exitoso</div>
@@ -253,20 +260,29 @@
             <figure class="m-0">
               <a href="course-single.html">
                 <img th:src="@{${course.imagePath}}" alt="Course Image" class="img-fluid">
+                
+
               </a>
             </figure>
             <div class="course-inner-text py-4 px-4">
               <span class="course-price" th:text="'$' + ${course.cost}"></span>
               <div class="meta">
                 <span class="icon-clock-o"></span>
-                <span th:text="${course.durationHours} + ' hours'"></span>
+                <span th:text="${course.durationHours} + ' horas'"></span>
+                <br>
+                <span>Fecha de inicio:</span> <span th:text="${course.startDate}">Start Date</span>
+                <br>
+                <span>Fecha de terminación:</span> <span th:text="${course.endDate}">End Date</span>
+                <br>
+                <span>Tipo de curso:</span> <span th:text="${course.courseType}">Type</span>
+                <br>
               </div>
               <h3><a href="#" th:text="${course.courseName}"></a></h3>
               <p th:text="${course.description}"></p>
             </div>
             <div class="d-flex border-top stats">
-              <div class="py-3 px-4"><span class="icon-users"></span> Students</div>
-              <div class="py-3 px-4 w-25 ml-auto border-left"><span class="icon-chat"></span> Comments</div>
+              <div class="py-3 px-4">Cupos <span th:text="${course.aspirantLimit}">fef</span> <span class="icon-users"></span></div>
+
             </div>
           </div>
 
@@ -284,7 +300,17 @@
     </div>
   </div>
 
+  <div id="new-section">
+    <iframe th:src="@{/view-new}" width="100%" height="800"></iframe>
+  </div>
 
+
+  <div id="location">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3790.952105284307!2d-92.2636082!3d14.8778308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x858e0fab2683e3bd%3A0x38ffb2c068b5fa28!2sCECATI%20%2386!5e0!3m2!1ses!2smx!4v1695682370123!5m2!1ses!2smx"
+      width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+  </div>
 
 
 
@@ -317,7 +343,6 @@
 
 
   <script src="js/main.js"></script>
-
 </body>
 
 </html>

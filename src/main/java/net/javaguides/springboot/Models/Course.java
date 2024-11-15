@@ -31,12 +31,10 @@ public class Course implements InterfaceCourse {
     @Column(name = "image_path")
     private String imagePath;
     @Column(name = "aspirant_limit")
-    private byte ASPIRANT_LIMIT = 20;
+    private byte LIMIT;
     @ManyToMany(mappedBy = "courses")
     private Set<Applicant> applicants = new HashSet<>();
-     
 
-    
     @Override
     public Long getId() {
         return id;
@@ -129,7 +127,12 @@ public class Course implements InterfaceCourse {
 
     @Override
     public byte getAspirantLimit() {
-        return ASPIRANT_LIMIT;
+        return this.LIMIT;
+    }
+
+    @Override
+    public void setAspirantLimit(byte limit) {
+        this.LIMIT = limit;
     }
 
 }

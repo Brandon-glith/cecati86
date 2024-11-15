@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Detail.CustomUserDetails;
 import net.javaguides.springboot.Models.Applicant;
+import net.javaguides.springboot.Models.DepartamentUser;
 import net.javaguides.springboot.Models.Rol;
 import net.javaguides.springboot.Models.User;
 import net.javaguides.springboot.Repository.InterfaceRolRepository;
@@ -33,25 +34,51 @@ public class UserServiceImplementation implements InterfaceUserService {
     private BCryptPasswordEncoder eBCryptPasswordEncoder;
 
     @Override
-    public Applicant save(UserRegistrationDTO registrationDTO) {
-        Optional<Rol> optionalRol = rolRepository.findById(1L);
+    public User save(UserRegistrationDTO registrationDTO, Long rolId) {
+        Optional<Rol> optionalRol = rolRepository.findById(rolId);
 
         // Verificamos si el Rol existe
         if (optionalRol.isPresent()) {
             Rol rol = optionalRol.get();
-
             // Creamos el usuario Applicant
-            Applicant user = new Applicant(
-                    registrationDTO.getEmail(),
-                    eBCryptPasswordEncoder.encode(
-                            registrationDTO.getPassword()),
-                    rol);
+            int idRol = rol.getId().intValue();
+            User user = new User();
 
-            // Establecemos los atributos adicionales del Applicant
             user.setName(registrationDTO.getNames());
             user.setLastName(registrationDTO.getSurnames());
-            user.setBirthdate(registrationDTO.getBirthdate());
-            user.setPhoneNumber(registrationDTO.getPhoneNumber());
+            user.setEmail(registrationDTO.getEmail());
+            user.setPassword(eBCryptPasswordEncoder.encode(
+                    registrationDTO.getPassword()));
+
+            switch (idRol) {
+                case 1:
+                    Applicant aspirantUser = new Applicant();
+                    // Establecemos los valores en aspirantUser tomando primero los ya configurados
+                    // en user
+                    aspirantUser.setName(user.getName());
+                    aspirantUser.setLastName(user.getLastName());
+                    aspirantUser.setEmail(user.getEmail());
+                    aspirantUser.setPassword(user.getPassword());
+
+                    // Establecemos los atributos adicionales de aspirantUser desde registrationDTO
+                    aspirantUser.setBirthdate(registrationDTO.getBirthdate());
+                    aspirantUser.setPhoneNumber(registrationDTO.getPhoneNumber());
+                    aspirantUser.setRol(rol);
+                    return userRepository.save(aspirantUser);
+
+                case 3:
+                    DepartamentUser departamentUser = new DepartamentUser();
+                    departamentUser.setName(user.getName());
+                    departamentUser.setLastName(user.getLastName());
+                    departamentUser.setEmail(user.getEmail());
+                    departamentUser.setPassword(user.getPassword());
+                    departamentUser.setRol(rol);
+                    return userRepository.save(departamentUser);
+                default:
+                    break;
+            }
+
+            // Establecemos los atributos adicionales del Applicant
 
             // Guardamos el usuario en la base de datos y lo retornamos
             return userRepository.save(user);
@@ -63,8 +90,8 @@ public class UserServiceImplementation implements InterfaceUserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Applicant user = (Applicant) (userRepository.findByEmail(
-                email));
+        User user = userRepository.findByEmail(
+                email);
 
         if (user == null) {
             throw new UsernameNotFoundException(
