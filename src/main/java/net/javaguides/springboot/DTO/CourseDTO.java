@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class CourseDTO {
 
+    private Long id;
     private String courseName;
     private String description;
     private int durationHours;
@@ -106,6 +107,14 @@ public class CourseDTO {
 
     public void setAspirantLimit(byte aspirantLimit) {
         this.aspirantLimit = aspirantLimit;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

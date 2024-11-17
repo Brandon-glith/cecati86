@@ -50,6 +50,79 @@
     .table-responsive {
       margin-top: 1rem;
     }
+
+    .trash-button {
+      background-color: #660033;
+      border: none;
+      color: white;
+      padding: 11px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .trash-button:hover {
+      background-color: #660033;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    #logout {
+      font-family: sans-serif;
+      font-style: normal;
+      background-color: #660033;
+      border-color: #660033;
+    }
+
+    #new-course {
+      font-family: sans-serif;
+      font-style: normal;
+      background-color: #660033;
+      border-color: #660033;
+    }
+
+    .trash-icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+      fill: currentColor;
+    }
+
+    .edit-button {
+      background-color: #660033;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-button:hover {
+      background-color: #660033;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-icon {
+      width: 12px;
+      height: 12px;
+      margin-right: 8px;
+      fill: currentColor;
+    }
+
+    .edit-text {
+      font-weight: 500;
+    }
   </style>
 </head>
 
@@ -79,7 +152,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-3">
         <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-primary">
+          <button id="logout" class="btn btn-primary">
             <i class="cta"><a th:href="@{/logout}" class="nav-link"><span>Cerrar Sesión</span></a></i>
           </button>
         </div>
@@ -90,7 +163,7 @@
   <main class="main-content">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fs-5 fw-bold">Vista General</h2>
-      <button class="btn btn-primary">
+      <button id="new-course" class="btn btn-primary">
         <i class="bi bi-plus"><a th:href="@{/register-course}" class="nav-link"><span>Nuevo curso</span></a></i>
       </button>
     </div>
@@ -152,17 +225,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <!--<td><span class="badge bg-success">Activo</span></td>-->
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <!--<td><span class="badge bg-warning text-dark">Pendiente</span></td>-->
+            <tr th:each="course : ${courses}">
+              <td th:text="${course.courseName}">Nombre del Curso</td>
+              <td th:text="${course.durationHours}">Duración en horas</td>
+              <td th:text="${course.startDate}">Fecha de inicio</td>
+              <td th:text="${course.endDate}">Fecha de terminación</td>
+              <td th:text="${course.courseType}">Tipo de curso</td>
+              <td th:text="${course.cost}">Costo</td>
+              <td>
+                <button class="trash-button">
+                  <svg class="trash-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                      d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z" />
+                  </svg>
+                  Eliminar
+                </button>
+              </td>
+
+
+              <input type="hidden" id="userId" name="userId" th:value="${course.id}">
+
             </tr>
           </tbody>
         </table>

@@ -16,6 +16,7 @@ import net.javaguides.springboot.Models.Applicant;
 import net.javaguides.springboot.Models.DepartamentUser;
 import net.javaguides.springboot.Models.Rol;
 import net.javaguides.springboot.Models.User;
+import net.javaguides.springboot.Presenters.UserRegistrationDTOToUserMapper;
 import net.javaguides.springboot.Repository.InterfaceRolRepository;
 import net.javaguides.springboot.Repository.InterfaceUserRepository;
 
@@ -33,6 +34,9 @@ public class UserServiceImplementation implements InterfaceUserService {
     @Autowired
     private BCryptPasswordEncoder eBCryptPasswordEncoder;
 
+    @Autowired
+    UserRegistrationDTOToUserMapper dtoToUserMapper;
+
     @Override
     public User save(UserRegistrationDTO registrationDTO, Long rolId) {
         Optional<Rol> optionalRol = rolRepository.findById(rolId);
@@ -42,13 +46,8 @@ public class UserServiceImplementation implements InterfaceUserService {
             Rol rol = optionalRol.get();
             // Creamos el usuario Applicant
             int idRol = rol.getId().intValue();
-            User user = new User();
 
-            user.setName(registrationDTO.getNames());
-            user.setLastName(registrationDTO.getSurnames());
-            user.setEmail(registrationDTO.getEmail());
-            user.setPassword(eBCryptPasswordEncoder.encode(
-                    registrationDTO.getPassword()));
+            User user = dtoToUserMapper.convertToEntity(registrationDTO);
 
             switch (idRol) {
                 case 1:
