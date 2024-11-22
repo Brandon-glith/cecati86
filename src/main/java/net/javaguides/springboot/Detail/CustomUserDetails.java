@@ -12,6 +12,7 @@ import net.javaguides.springboot.Models.Applicant;
 import net.javaguides.springboot.Models.User;
 
 public class CustomUserDetails implements UserDetails {
+
     private User user;
 
     public CustomUserDetails(User user) {
@@ -60,4 +61,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
+    public User getUser() {
+        return this.user;
+    }
 }

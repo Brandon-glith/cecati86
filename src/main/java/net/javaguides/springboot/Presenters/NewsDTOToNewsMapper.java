@@ -15,6 +15,7 @@ public class NewsDTOToNewsMapper implements InterfaceDTOToEntityMapper<NewsDTO, 
         news.setExpirationDate(newsDTO.getExpirationDate());
         news.setNewCategory(newsDTO.getNewCategory());
         news.setNewsStatus(newsDTO.getNewsStatus());
+        news.setUser(newsDTO.getUser());
         return news;
     }
 

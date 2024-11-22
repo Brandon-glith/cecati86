@@ -2,6 +2,8 @@ package net.javaguides.springboot.DTO;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import net.javaguides.springboot.Models.InterfaceNews;
 import net.javaguides.springboot.Models.NewsCategory;
 import net.javaguides.springboot.Models.User;
@@ -11,6 +13,7 @@ public class NewsDTO implements InterfaceNews {
     private Long id;
     private String imageUrl;
     private NewsCategory newCategory;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
     private Boolean newsStatus;
     private User user;

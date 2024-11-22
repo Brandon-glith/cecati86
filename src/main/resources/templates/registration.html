@@ -258,14 +258,12 @@
 
           <div class="course bg-white h-100 align-self-stretch" th:each="course : ${courses}">
             <figure class="m-0">
-              <a href="course-single.html">
+              <a>
                 <img th:src="@{${course.imagePath}}" alt="Course Image" class="img-fluid">
-                
-
               </a>
             </figure>
             <div class="course-inner-text py-4 px-4">
-              <span class="course-price" th:text="'$' + ${course.cost}"></span>
+              <span id="text-color" class="course-price" th:text="'$' + ${course.cost}"></span>
               <div class="meta">
                 <span class="icon-clock-o"></span>
                 <span th:text="${course.durationHours} + ' horas'"></span>
@@ -277,11 +275,30 @@
                 <span>Tipo de curso:</span> <span th:text="${course.courseType}">Type</span>
                 <br>
               </div>
-              <h3><a href="#" th:text="${course.courseName}"></a></h3>
+              <h3><a id="course-name-final" href="#courses-section" th:text="${course.courseName}"></a></h3>
               <p th:text="${course.description}"></p>
             </div>
+
+
+            <a th:href="@{/upload-documentation}" style="display: inline-block;">
+              <button class="button-subscription">
+                <svg fill="none" height="24" viewBox="0 0 24 24" width="24" class="svg-icon">
+                  <g clip-rule="evenodd" fill-rule="evenodd" stroke="#056dfa" stroke-linecap="round" stroke-width="2">
+                    <path d="m3 7h17c.5523 0 1 .44772 1 1v11c0 .5523-.4477 1-1 1h-16c-.55228 0-1-.4477-1-1z"></path>
+                    <path
+                      d="m3 4.5c0-.27614.22386-.5.5-.5h6.29289c.13261 0 .25981.05268.35351.14645l2.8536 2.85355h-10z">
+                    </path>
+                  </g>
+                </svg>
+                <span class="lable">Preinscribirse
+                </span>
+              </button>
+            </a>
+
+
             <div class="d-flex border-top stats">
-              <div class="py-3 px-4">Cupos <span th:text="${course.aspirantLimit}">fef</span> <span class="icon-users"></span></div>
+              <div class="py-3 px-4">Cupos <span th:text="${course.aspirantLimit}">fef</span> <span
+                  class="icon-users"></span></div>
 
             </div>
           </div>
@@ -293,8 +310,8 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-7 text-center">
-          <button class="customPrevBtn btn btn-primary m-1">Prev</button>
-          <button class="customNextBtn btn btn-primary m-1">Next</button>
+          <button id="back-button" class="customPrevBtn btn btn-primary m-1">Prev</button>
+          <button id="next-button" class="customNextBtn btn btn-primary m-1">Next</button>
         </div>
       </div>
     </div>

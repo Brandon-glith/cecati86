@@ -16,6 +16,8 @@ import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Service.CourseService;
 import net.javaguides.springboot.Service.EmailService;
 import net.javaguides.springboot.Service.InterfaceUserService;
+import net.javaguides.springboot.Service.NewsServiceImplementation;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,9 @@ public class UserRegistrationController {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private NewsServiceImplementation newsServiceImplementation;
+
     public UserRegistrationController(
             InterfaceUserService userService) {
         this.userService = userService;
@@ -49,6 +54,7 @@ public class UserRegistrationController {
     @GetMapping
     public String showRegistrationForm(Model model) {
         model.addAttribute("courses", courseService.getAllCourseDTOs());
+        
         return "registration";
     }
 

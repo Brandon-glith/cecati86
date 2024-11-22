@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/view-new")
 public class ControllerViewNews {
 
-    
+    @Autowired
+    private NewsServiceImplementation newsServiceImplementation;
 
     @GetMapping
     public String getMethodName(Model model) {
+        model.addAttribute(
+                "news",
+                newsServiceImplementation.getAllNewsDTOs());
         return "section-new";
     }
 

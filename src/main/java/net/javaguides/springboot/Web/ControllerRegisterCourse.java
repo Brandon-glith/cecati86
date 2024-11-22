@@ -36,7 +36,7 @@ public class ControllerRegisterCourse {
     }
 
     @PostMapping
-    public String postMethodName(
+    public String registerCourse(
             @ModelAttribute("course") CourseDTO courseDTO,
             @RequestParam(value = "imagePath", required = false) String imagePath) {
         courseDTO.setImagePath(imagePath);
