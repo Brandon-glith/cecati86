@@ -35,6 +35,14 @@ public class Course implements InterfaceCourse {
     @ManyToMany(mappedBy = "courses")
     private Set<Applicant> applicants = new HashSet<>();
 
+    public Set<Applicant> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(Set<Applicant> applicants) {
+        this.applicants = applicants;
+    }
+
     @Override
     public Long getId() {
         return id;

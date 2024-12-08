@@ -12,4 +12,6 @@ public interface InterfaceCourseService {
     void save(CourseDTO courseDTO);
 
     Long getTotalCourses();
+
+    void deleteCourse(Long idCourse);
 }

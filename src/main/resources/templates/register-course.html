@@ -196,6 +196,35 @@
         <h1>Registro de Curso</h1>
         <form id="courseForm" th:action="@{/register-course}" method="post" th:object="${course}"
             enctype="multipart/form-data">
+            <div th:if="${#fields.hasErrors('description')}" id="error-names" class="alert alert-danger">
+                <span th:errors="*{description}"></span>
+            </div>
+
+            <div th:if="${#fields.hasErrors('courseName')}" id="error-names" class="alert alert-danger">
+                <span th:errors="*{courseName}"></span>
+            </div>
+
+            <div th:if="${#fields.hasErrors('durationHours')}" id="error-names" class="alert alert-danger">
+                <span th:errors="*{durationHours}"></span>
+            </div>
+
+            <div th:if="${#fields.hasErrors('aspirantLimit')}" id="error-names" class="alert alert-danger">
+                <span th:errors="*{aspirantLimit}"></span>
+            </div>
+            <!--cost-->
+
+            <div th:if="${#fields.hasErrors('cost')}" id="error-names" class="alert alert-danger">
+                <span th:errors="*{cost}"></span>
+            </div>
+
+            <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger mt-2">
+                <ul>
+                    <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                </ul>
+            </div>
+
+
+
             <div class="form-group">
                 <label for="courseName">Nombre del Curso:</label>
                 <input type="text" id="courseName" th:field="*{courseName}" placeholder="Nombre del Curso"
@@ -205,6 +234,7 @@
                 <label for="description">Descripción:</label>
                 <textarea id="description" th:field="*{description}" placeholder="Descripción del curso"
                     class="form-control" required></textarea>
+
             </div>
             <div class="form-group">
                 <label for="durationHours">Duración (horas):</label>
@@ -218,11 +248,11 @@
             </div>
             <div class="form-group">
                 <label for="startDate">Fecha de Inicio:</label>
-                <input type="date" id="startDate" th:field="*{startDate}" class="form-control" required>
+                <input type="date" id="startDate" th:field="*{startDate}" class="form-control">
             </div>
             <div class="form-group">
                 <label for="endDate">Fecha de Finalización:</label>
-                <input type="date" id="endDate" th:field="*{endDate}" class="form-control" required>
+                <input type="date" id="endDate" th:field="*{endDate}" class="form-control">
             </div>
             <div class="form-group">
                 <label for="cost">Costo:</label>
@@ -269,6 +299,22 @@
     </div>
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Selecciona todos los elementos con la clase 'alert'
+            const alerts = document.querySelectorAll('.alert');
+
+            // Itera sobre cada alerta encontrada
+            alerts.forEach(alert => {
+                // Usa setTimeout para ocultar la alerta después de 5 segundos
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0'; // Aplica una transición de opacidad
+                    setTimeout(() => alert.style.display = 'none', 500); // Elimina del DOM después de la transición
+                }, 5000);
+            });
+        });
+        
         let confirm = false;
         let fileInput;
         let file;
@@ -345,6 +391,7 @@
         function closeDialog() {
             document.getElementById('dialog').style.display = 'none';
         }
+
     </script>
 </body>
 

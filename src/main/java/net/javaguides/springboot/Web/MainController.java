@@ -20,7 +20,7 @@ public class MainController {
 
     @Autowired
     UserServiceImplementation implementation;
-
+    
     @GetMapping("/login")
     public String login() {
         return "login";

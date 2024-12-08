@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Curso</title>
   <style>
-    /* From Uiverse.io by Yaya12085 */ 
+    /* From Uiverse.io by Yaya12085 */
     .container {
       height: 580px;
       width: 99%;
@@ -39,6 +40,9 @@
     .header svg {
       height: 100px;
     }
+
+
+
 
     .header p {
       text-align: center;
@@ -77,59 +81,566 @@
     #file {
       display: none;
     }
+
+
+    /* Estilos para la ventana emergente */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      margin-top: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .confirm-btn {
+      background-color: royalblue;
+      color: white;
+    }
+
+    .confirm-btn:hover {
+      background-color: #2a52be;
+    }
+
+    .cancel-btn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background-color: #da190b;
+    }
+
+
+    .dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dialog-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 300px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .dialog-header h2 {
+      margin-top: 0;
+    }
+
+    .dialog-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .btn-cancel,
+    .btn-confirm {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .btn-confirm {
+      background-color: #660033;
+      color: #fff;
+    }
+
+    #show-modal {
+      display: none;
+    }
+
+    /* Mostrar el modal cuando el checkbox está marcado */
+    #show-modal:checked~.modal {
+      display: block;
+    }
+
+    /* From Uiverse.io by adamgiebl */
+    #upload-btn {
+      font-family: inherit;
+      font-size: 20px;
+      background: rgba(0, 110, 255, 0.098);
+      color: black;
+      padding: 0.7em 1em;
+      padding-left: 0.9em;
+      display: flex;
+      align-items: center;
+      border: none;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    #upload-btn span {
+      display: block;
+      margin-left: 0.3em;
+      transition: all 0.3s ease-in-out;
+    }
+
+    #upload-btn svg {
+      display: block;
+      transform-origin: center center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #upload-btn:hover .svg-wrapper {
+      animation: fly-1 0.6s ease-in-out infinite alternate;
+    }
+
+    button:hover svg {
+      transform: translateX(1.2em) rotate(45deg) scale(1.1);
+    }
+
+    button:hover span {
+      transform: translateX(5em);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes fly-1 {
+      from {
+        transform: translateY(0.1em);
+      }
+
+      to {
+        transform: translateY(-0.1em);
+      }
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Fondo semi-transparente */
+      display: flex;
+      /* Centrar contenido */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      /* Asegura que esté por encima de otros elementos */
+      visibility: hidden;
+      /* Oculto por defecto */
+      opacity: 0;
+      /* Totalmente transparente al inicio */
+      transition: opacity 0.3s ease;
+      /* Animación para mostrar/ocultar */
+    }
+
+    .card {
+      width: 300px;
+      height: fit-content;
+      background: rgb(255, 255, 255);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.068);
+    }
+
+    .card-content {
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .card-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgb(27, 27, 27);
+    }
+
+    .card-description {
+      font-weight: 100;
+      color: rgb(102, 102, 102);
+    }
+
+    .card-button-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .card-button {
+      width: 50%;
+      height: 35px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .primary {
+      background-color: rgb(255, 114, 109);
+      color: white;
+    }
+
+    .primary:hover {
+      background-color: rgb(255, 73, 66);
+    }
+
+    .secondary {
+      background-color: #ddd;
+    }
+
+    .secondary:hover {
+      background-color: rgb(197, 197, 197);
+    }
+
+    .exit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .exit-button:hover svg {
+      fill: black;
+    }
+
+    .exit-button svg {
+      fill: rgb(175, 175, 175);
+    }
   </style>
 </head>
+
 <body>
-<div class="container"> 
-  <div class="header" id="drop-zone"> 
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" 
-            stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg> 
-    <p>Arrastra y suelta un archivo aquí o haz clic para seleccionar</p>
-  </div> 
-  <label for="file" class="footer"> 
-    <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path>
-      <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
-    </svg> 
-    <p>Not selected file</p> 
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z" 
-            stroke="#000000" stroke-width="2"></path>
-      <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
-      <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z" stroke="#000000" stroke-width="2"></path>
-    </svg>
-  </label> 
-  <input id="file" type="file"> 
-</div>
+  <div class="overlay" id="modal-overlay">
+    <div class="card">
+      <div class="card-content">
+        <p class="card-heading">Para preinscribirse a este curso necesitas los siguientes documentos</p>
+        <p class="card-description">Documentación necesaria:</p>
 
-<script>
-  const dropZone = document.getElementById('drop-zone');
-  const fileInput = document.getElementById('file');
+        <ul>
+          <li class="card-description">Copia de Acta de Nacimiento</li>
+          <li class="card-description">Copia de CURP (Clave Única de Registro de Población)</li>
+          <li class="card-description">Copia de credencial de INE</li>
+          <li class="card-description">Copia de comprobante de último grado de estudios</li>
+          <li class="card-description">Copia de comprobante de domicilio</li>
+          <li class="card-description">2 fotografías tamaño infantil</li>
+          <li class="card-description">2 copias del comprobante de pago</li>
+        </ul>
 
-  dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('drag-over');
-  });
 
-  dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('drag-over');
-  });
+      </div>
+      <div class="card-button-wrapper">
+        <button id="abandon-button" class="card-button secondary">Abandonar</button>
+        <button id="proceed-button" class="card-button primary">Proceder</button>
+      </div>
+      <button class="exit-button">
+        <svg height="20px" viewBox="0 0 384 512">
+          <path
+            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+          </path>
+        </svg>
+      </button>
+    </div>
+  </div>
 
-  dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('drag-over');
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      fileInput.files = files;
-      alert(`Archivo cargado: ${files[0].name}`);
+
+  <div class="container">
+    <div class="header" id="drop-zone">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15"
+          stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <p id="index-document"></p>
+      <p>Arrastra y suelta un archivo aquí o haz clic en cualquier parte</p>
+    </div>
+    <label for="file" class="footer">
+      <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path>
+        <path d="M18.153 6h-.009v5.342H23.5v-.002z"></path>
+      </svg>
+      <p id="alert-file">Archivo no selecionado</p>
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M5.16565 10.1534C5.07629 8.99181 5.99473 8 7.15975 8H16.8402C18.0053 8 18.9237 8.9918 18.8344 10.1534L18.142 19.1534C18.0619 20.1954 17.193 21 16.1479 21H7.85206C6.80699 21 5.93811 20.1954 5.85795 19.1534L5.16565 10.1534Z"
+          stroke="#000000" stroke-width="2"></path>
+        <path d="M19.5 5H4.5" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+        <path d="M10 3C10 2.44772 10.4477 2 11 2H13C13.5523 2 14 2.44772 14 3V5H10V3Z" stroke="#000000"
+          stroke-width="2"></path>
+      </svg>
+    </label>
+
+
+    <form id="form-upload-documentation" th:action="@{/upload-documentation}" method="post"
+      enctype="multipart/form-data">
+      <input id="file" name="file" type="file" accept=".pdf">
+      <button id="upload-btn" type="submit" style="display: none;">
+        <div class="svg-wrapper-1">
+          <div class="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path fill="currentColor"
+                d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+              </path>
+            </svg>
+          </div>
+        </div>
+        <span>Subir Documento</span>
+      </button>
+    </form>
+    <input type="hidden" id="courseId" th:value="${courseId}">
+    <input type="hidden" id="applicantId" th:value="${applicantId}">
+
+    <input type="hidden" id="courseName" th:value="${courseName}">
+
+
+    <div id="dialog" class="dialog">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h2>Confirmar registro</h2>
+          <p>¿Estás seguro que deseas subir este archivo?</p>
+        </div>
+        <div class="dialog-footer">
+          <button id="btn-cancel-send" class="btn-cancel">Cancelar</button>
+          <button id="btn-confirm-send" class="btn-confirm">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script th:inline="javascript">
+    let count = 0;
+
+    const signUpCourse = async (applicantId, courseId) => {
+      const formData = new FormData();
+      formData.append("applicantId", applicantId);
+      formData.append("courseId", courseId);
+
+      try {
+        const response = await fetch("/sing-up-course", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const message = await response.text();
+          alert("¡Inscripción al curso realizada exitosamente!");
+          console.log("Success:", message);
+          window.location.href = '/registration';
+        } else {
+          const errorMessage = await response.text();
+          alert("Error al inscribirse al curso: " + errorMessage);
+          console.error("Error:", errorMessage);
+        }
+      } catch (error) {
+        console.error("Network Error:", error);
+        alert("Ocurrió un error al intentar inscribirse al curso.");
+      }
+    };
+
+    const documents = [
+      "Copia de Acta de Nacimiento",
+      "Copia de CURP (Clave Única de Registro de Población)",
+      "Copia de credencial de INE",
+      "Copia de comprobante de último grado de estudios",
+      "Copia de comprobante de domicilio",
+      "2 fotografías tamaño infantil",
+      "2 copias del comprobante de pago"
+    ];
+
+    document.getElementById("index-document").textContent = documents[count];
+    document.getElementById("proceed-button").addEventListener('click', function () {
+      document.getElementById("modal-overlay").style.display = 'none';
+    });
+
+    document.getElementById('abandon-button').addEventListener('click', function () {
+      window.location.href = '/registration';
+      e.preventDefault();
+    });
+
+    window.onload = function () {
+      document.getElementById('modal-overlay').style.visibility = 'visible';
+      document.getElementById('modal-overlay').style.opacity = 1;
+    };
+
+
+    let fileInput = document.getElementById('file');
+
+
+    document.getElementById("form-upload-documentation").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const courseId = document.getElementById('courseId').value;
+      const applicantId = document.getElementById('applicantId').value;
+
+
+      const courseName = document.getElementById('courseName').value;
+
+
+      const indexInput = document.getElementById('index');
+
+      const value = await showDialogConfirmation();
+
+      if (value) {
+        if (!fileInput.files[0]) {
+          alert('Por favor, selecciona un archivo.');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('index', count);//courseName
+
+        try {
+          const response = await fetch('/upload-documentation?courseId='
+            + courseId + "&courseName=" + courseName, {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (response.ok) {
+            count++;
+            fileInput.value = "";
+            document.getElementById("alert-file").textContent = "";
+            document.getElementById("index-document").textContent = documents[count];
+            alert("¡Archivo subido satisfactoriamente!");
+          } else {
+            alert(await response.text());
+            alert('Error al subir el archivo.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Ocurrió un error al intentar subir el archivo.');
+        }
+
+        if (count == (documents.length)) {
+          alert("¡Documentación enviada con éxito!");
+          signUpCourse(applicantId, courseId);
+        }
+        // document.getElementById("form-upload-documentation").submit();
+      }
+
+    });
+
+
+
+    document.getElementById("btn-confirm-send").addEventListener('click', function () {
+      confirm(true);
+    });
+
+    document.getElementById("btn-cancel-send").addEventListener('click', function () {
+      confirm(false);
+    });
+
+    function showDialogConfirmation() {
+      return new Promise((resolve) => {
+        document.getElementById('dialog').style.display = 'flex';
+
+        confirm = (answer) => {
+          closeDialog();
+          resolve(answer);
+        }
+      });
     }
-  });
 
-  dropZone.addEventListener('click', () => {
-    fileInput.click();
-  });
-</script>
+    function closeDialog() {
+      document.getElementById('dialog').style.display = 'none';
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+
+
+    fileInput.addEventListener("input", function (e) {
+      document.getElementById("upload-btn").style.display = 'flex';
+      file = fileInput.files[0];
+      document.getElementById("alert-file").textContent = file.name;
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const file = files[0];
+        if (file.type === "application/pdf") { // Verifica el tipo MIME del archivo
+          fileInput.files = files;
+          alert(`Archivo cargado: ${file.name}`);
+          document.getElementById("upload-btn").style.display = 'flex';
+          document.getElementById("alert-file").textContent = file.name;
+        } else {
+          alert('Por favor, sube un archivo en formato PDF.');
+        }
+      }
+    });
+
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+  </script>
 </body>
+
 </html>

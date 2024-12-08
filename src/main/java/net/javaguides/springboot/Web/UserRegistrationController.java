@@ -54,7 +54,6 @@ public class UserRegistrationController {
     @GetMapping
     public String showRegistrationForm(Model model) {
         model.addAttribute("courses", courseService.getAllCourseDTOs());
-        
         return "registration";
     }
 

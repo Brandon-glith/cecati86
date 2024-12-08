@@ -34,6 +34,9 @@ public class VerificationController {
         @Autowired
         private InterfaceUserService userService;
 
+        @Autowired
+        HttpSession session;
+
         @GetMapping
         public String showVerificationForm(
                         Model model,
@@ -105,8 +108,7 @@ public class VerificationController {
                                 userService.save(registrationDTO, idRol);
                                 return "redirect:/registration?success";
                         case "changePassword":
-
-                                break;
+                                return "redirect:/change-password";
                         default:
                                 break;
                 }

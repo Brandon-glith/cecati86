@@ -48,7 +48,7 @@ public class RecoverPassword {
     public String processRecoverPasswordRequest(@RequestParam("name") String name,
             @RequestParam("phone") String phone) {
 
-        System.out.println("Received recovery request: Name: " + name + ", Phone: " + phone);
+        
 
         // Replace with your desired action after processing (e.g., redirect to success
         // page)

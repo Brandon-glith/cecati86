@@ -10,13 +10,16 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import net.javaguides.springboot.DTO.RegisterCourseDTO;
 import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Detail.CustomUserDetails;
 import net.javaguides.springboot.Models.Applicant;
+import net.javaguides.springboot.Models.Course;
 import net.javaguides.springboot.Models.DepartamentUser;
 import net.javaguides.springboot.Models.Rol;
 import net.javaguides.springboot.Models.User;
 import net.javaguides.springboot.Presenters.UserRegistrationDTOToUserMapper;
+import net.javaguides.springboot.Repository.InterfaceCourseRepository;
 import net.javaguides.springboot.Repository.InterfaceRolRepository;
 import net.javaguides.springboot.Repository.InterfaceUserRepository;
 
@@ -36,6 +39,9 @@ public class UserServiceImplementation implements InterfaceUserService {
 
     @Autowired
     UserRegistrationDTOToUserMapper dtoToUserMapper;
+
+    @Autowired
+    InterfaceCourseRepository courseRepository;
 
     @Override
     public User save(UserRegistrationDTO registrationDTO, Long rolId) {
@@ -110,6 +116,30 @@ public class UserServiceImplementation implements InterfaceUserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-    // User user = interfaceUserRepository.findByEmail(email);
+
+    @Override
+    public List<User> findAllByRoleId(Long id) {
+        return userRepository.findByRolId(id);
+    }
+
+    @Override
+    public void changePasswordByEmail(String email, String password) {
+        this.userRepository.updatePasswordByEmail(email, password);
+    }
+
+    @Override
+    public void signUpCourse(RegisterCourseDTO registerCourseDTO) {
+        Applicant applicant = (Applicant) userRepository.findById(
+                registerCourseDTO.getApplicantId()).orElseThrow();
+
+        Course course = courseRepository.findById(
+                registerCourseDTO.getCourseId()).orElseThrow();
+
+        applicant.getCourses().add(course);
+        course.getApplicants().add(applicant);
+        course.setAspirantLimit(
+                (byte) (course.getAspirantLimit() - 1));
+        this.userRepository.save(applicant);
+    }
 
 }

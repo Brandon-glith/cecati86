@@ -43,4 +43,9 @@ public class NewsServiceImplementation implements InterfaceNewsService {
         return newsRepository.count();
     }
 
+    @Override
+    public void deleteNewById(Long id) {
+        this.newsRepository.deleteById(id);
+    }
+
 }

@@ -68,7 +68,7 @@ public class UserManagementController {
         session.setAttribute("verificationCode", verificationCode);
         session.setAttribute("action", "register");
         session.setAttribute("idRol", role);
-        // userService.save(registrationDTO);
+        
 
         return "redirect:/verification-code";
     }

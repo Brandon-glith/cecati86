@@ -17,6 +17,7 @@ public class CloudinaryServiceImplementation implements InterfaceCloudinaryServi
 
     @Override
     public String uploadImage(MultipartFile file) throws FileException {
+        System.out.println("The complete name is: " + file.getOriginalFilename());
         String fileUrl = "";
         try {
             Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());

@@ -12,4 +12,6 @@ public interface InterfaceNewsService {
     List<NewsDTO> getAllNewsDTOs();
 
     Long totalNews();
+
+    void deleteNewById(Long id);
 }

@@ -1,0 +1,142 @@
+<style>
+  .applicants-container {
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .applicant-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .applicant-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #212529;
+    margin-bottom: 0.5rem;
+  }
+
+  .applicant-email {
+    color: #6c757d;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    width: 100%;
+  }
+
+  .btn i {
+    margin-right: 0.5rem;
+  }
+</style>
+
+<div class="applicants-container">
+  <h2 class="mb-4">Aspirantes Registrados</h2>
+  
+  <div class="row">
+    <!-- Aspirante 1 -->
+    <div class="col-md-4 mb-4">
+      <div class="applicant-card">
+        <h3 class="applicant-name">Juan Pérez</h3>
+        <div class="applicant-email">
+          <i class="bi bi-envelope"></i>
+          juan@example.com
+        </div>
+        <button class="btn btn-success">
+          <i class="bi bi-check-circle"></i>
+          Preinscripción Exitosa
+        </button>
+        <button class="btn btn-danger">
+          <i class="bi bi-x-circle"></i>
+          Preinscripción Rechazada
+        </button>
+      </div>
+    </div>
+
+    <!-- Aspirante 2 -->
+    <div class="col-md-4 mb-4">
+      <div class="applicant-card">
+        <h3 class="applicant-name">María García</h3>
+        <div class="applicant-email">
+          <i class="bi bi-envelope"></i>
+          maria@example.com
+        </div>
+        <button class="btn btn-success">
+          <i class="bi bi-check-circle"></i>
+          Preinscripción Exitosa
+        </button>
+        <button class="btn btn-danger">
+          <i class="bi bi-x-circle"></i>
+          Preinscripción Rechazada
+        </button>
+      </div>
+    </div>
+
+    <!-- Aspirante 3 -->
+    <div class="col-md-4 mb-4">
+      <div class="applicant-card">
+        <h3 class="applicant-name">Carlos Rodríguez</h3>
+        <div class="applicant-email">
+          <i class="bi bi-envelope"></i>
+          carlos@example.com
+        </div>
+        <button class="btn btn-success">
+          <i class="bi bi-check-circle"></i>
+          Preinscripción Exitosa
+        </button>
+        <button class="btn btn-danger">
+          <i class="bi bi-x-circle"></i>
+          Preinscripción Rechazada
+        </button>
+      </div>
+    </div>
+
+    <!-- Aspirante 4 -->
+    <div class="col-md-4 mb-4">
+      <div class="applicant-card">
+        <h3 class="applicant-name">Ana Martínez</h3>
+        <div class="applicant-email">
+          <i class="bi bi-envelope"></i>
+          ana@example.com
+        </div>
+        <button class="btn btn-success">
+          <i class="bi bi-check-circle"></i>
+          Preinscripción Exitosa
+        </button>
+        <button class="btn btn-danger">
+          <i class="bi bi-x-circle"></i>
+          Preinscripción Rechazada
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add this script to handle the notifications -->
+<script>
+  document.querySelectorAll('.btn-success, .btn-danger').forEach(button => {
+    button.addEventListener('click', function() {
+      const card = this.closest('.applicant-card');
+      const name = card.querySelector('.applicant-name').textContent;
+      const status = this.classList.contains('btn-success') ? 'exitosa' : 'rechazada';
+      alert(`Preinscripción ${status} para ${name}`);
+      // Aquí puedes agregar la lógica para enviar la notificación al servidor
+    });
+  });
+</script>

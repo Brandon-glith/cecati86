@@ -3,21 +3,39 @@ package net.javaguides.springboot.DTO;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+import net.javaguides.springboot.ApplicationLayer.ValidDateRange;
+
+@ValidDateRange
 public class CourseDTO {
 
     private Long id;
+    @NotBlank(message = "El nombre del curso no puede estar vacío")
+    @Size(min = 3, max = 100, message = "El nombre del curso debe tener entre 3 y 100 caracteres")
+    @Pattern(regexp = "^[A-Za-záéíóúÁÉÍÓÚ0-9 ]+$", message = "El nombre del curso solo puede contener letras, números y espacios")
     private String courseName;
+    @Size(max = 334, message = "¡La descripción del curso es demasiado larga!")
     private String description;
+    @Min(value = 1, message = "La duración del curso debe ser al menos de 1 hora.")
     private int durationHours;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate; // Fecha de inicio
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     private LocalDate endDate; // Fecha de terminación
+
+    @Positive(message = "El costo debe ser un valor positivo.")
     private BigDecimal cost;
     private String courseType;
     private String imagePath;
+    @Positive(message = "El limite de aspirantes debe ser positivo.")
     private byte aspirantLimit;
 
     // Getters y Setters

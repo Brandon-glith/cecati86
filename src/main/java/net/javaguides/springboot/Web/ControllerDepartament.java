@@ -3,7 +3,9 @@ package net.javaguides.springboot.Web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,6 +27,12 @@ public class ControllerDepartament {
                 "courses",
                 courseService.getAllCourseDTOs());
         return "admin-control-E-V";
+    }
+
+    @DeleteMapping("/delete-course{id}")
+    public String deleteCourse(@PathVariable Long id) {
+        courseService.deleteCourse(id);
+        return "redirect:/view-departament";
     }
 
 }

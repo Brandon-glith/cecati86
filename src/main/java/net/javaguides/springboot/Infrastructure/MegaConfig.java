@@ -1,11 +1,13 @@
 package net.javaguides.springboot.Infrastructure;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.google.api.client.util.Value;
-//import com.mega.sdk.MegaApiClient;
-//import com.mega.sdk.MegaError;
-//import com.mega.sdk.MegaUser;
 
+import java.io.File;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import net.javaguides.springboot.ApplicationLayer.MegaSDK;
 
 @Configuration
 public class MegaConfig {
@@ -15,5 +17,10 @@ public class MegaConfig {
 
     @Value("${mega.api.password}")
     private String password;
+
+    @Bean
+    public MegaSDK mega() {
+        return new MegaSDK(email, password);
+    }
 
 }

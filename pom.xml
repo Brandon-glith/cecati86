@@ -16,39 +16,22 @@
 	<description>Demo project for Spring Boot Thymeleaf and Hibernate </description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.github.eliux/megacmd4j -->
-		<dependency>
-			<groupId>com.github.eliux</groupId>
-			<artifactId>megacmd4j</artifactId>
-			<version>1.6.11</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client-jackson2</artifactId>
-			<version>1.33.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.33.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.oauth-client</groupId>
-			<artifactId>google-oauth-client-jetty</artifactId>
-			<version>1.33.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-drive</artifactId>
-			<version>v3-rev197-1.25.0</version>
-		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>
 			<artifactId>dotenv-java</artifactId>

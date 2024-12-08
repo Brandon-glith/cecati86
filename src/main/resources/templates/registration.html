@@ -117,6 +117,9 @@
                   <form sec:authorize="!isAuthenticated()" th:action="@{/registration}" method="post"
                     th:object="${user}" class="form-box">
 
+                    <div id="recomendation" class="alert alert-info" style="display: none;">Primero Inicia Sesión o
+                      Registrate
+                    </div>
                     <input type="hidden" name="source" value="registration">
                     <!-- success message -->
                     <div th:if="${param.success}">
@@ -280,7 +283,9 @@
             </div>
 
 
-            <a th:href="@{/upload-documentation}" style="display: inline-block;">
+            <a sec:authorize="isAuthenticated()" th:if="${course.aspirantLimit > 0}"
+              th:href="@{/upload-documentation(courseId=${course.id}, courseName=${course.courseName})}"
+              style="display: inline-block;">
               <button class="button-subscription">
                 <svg fill="none" height="24" viewBox="0 0 24 24" width="24" class="svg-icon">
                   <g clip-rule="evenodd" fill-rule="evenodd" stroke="#056dfa" stroke-linecap="round" stroke-width="2">
@@ -296,10 +301,30 @@
             </a>
 
 
+
+            <a sec:authorize="!isAuthenticated()" href="#" style="display: inline-block;">
+              <button id="false-button" class="button-subscription">
+                <svg fill="none" height="24" viewBox="0 0 24 24" width="24" class="svg-icon">
+                  <g clip-rule="evenodd" fill-rule="evenodd" stroke="#056dfa" stroke-linecap="round" stroke-width="2">
+                    <path d="m3 7h17c.5523 0 1 .44772 1 1v11c0 .5523-.4477 1-1 1h-16c-.55228 0-1-.4477-1-1z"></path>
+                    <path
+                      d="m3 4.5c0-.27614.22386-.5.5-.5h6.29289c.13261 0 .25981.05268.35351.14645l2.8536 2.85355h-10z">
+                    </path>
+                  </g>
+                </svg>
+                <span class="lable">Preinscribirse
+                </span>
+
+              </button>
+            </a>
+
+
+
+
+
             <div class="d-flex border-top stats">
               <div class="py-3 px-4">Cupos <span th:text="${course.aspirantLimit}">fef</span> <span
                   class="icon-users"></span></div>
-
             </div>
           </div>
 
@@ -344,6 +369,17 @@
 
   </div> <!-- .site-wrap -->
 
+  <script>
+    let elements = document.querySelectorAll('.button-subscription');
+
+
+    elements.forEach(element => {
+      element.addEventListener('click', () => {
+        document.getElementById("recomendation").style.display = 'flex';
+      });
+    });
+
+  </script>
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>

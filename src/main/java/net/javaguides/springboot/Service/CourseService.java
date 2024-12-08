@@ -33,7 +33,7 @@ public class CourseService implements InterfaceCourseService {
     @Override
     public void save(CourseDTO courseDTO) {
         try {
-            courseRepository.save(courseDTOToCourseMapper.convertToEntity(courseDTO));   
+            courseRepository.save(courseDTOToCourseMapper.convertToEntity(courseDTO));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,5 +42,11 @@ public class CourseService implements InterfaceCourseService {
     @Override
     public Long getTotalCourses() {
         return courseRepository.count();
+    }
+
+    @Override
+    public void deleteCourse(Long idCourse) {
+        this.courseRepository.deleteById(idCourse);
+        
     }
 }
