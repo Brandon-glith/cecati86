@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f1f4;
+            color: #4a0e2b;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(74, 14, 43, 0.1);
+        }
+
+        h1 {
+            color: #8c1c48;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0c1cf;
+        }
+
+        th {
+            background-color: #8c1c48;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f1f4;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-edit {
+            background-color: #c13c6b;
+            color: #ffffff;
+        }
+
+        .btn-delete {
+            background-color: #6b0f30;
+            color: #ffffff;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #c13c6b;
+            border-radius: 4px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #8c1c48;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gestión de Usuarios Registrados</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Fecha de Registro</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="applicant : ${applicantInfo}">
+                    <td th:text="${applicant.id}"></td>
+                    <td th:text="${applicant.name}"></td>
+                    <td th:text="${applicant.surnames}"></td>
+                    <td th:text="${applicant.email}"></td>
+                    <td th:text="${applicant.creationDate}"></td>
+                    <td th:text="${applicant.phoneNumber}"></td>
+                    <td>
+                        <button class="btn btn-delete" onclick="confirmAndDelete(this)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function confirmAndDelete(button) {
+            // Obtener el ID desde la celda de la misma fila del botón
+            const row = button.closest('tr');
+            const idCell = row.querySelector('td');
+            const id = idCell.textContent.trim();
+
+            // Confirmar eliminación
+            const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar al usuario con ID ${id}?`);
+            if (!confirmDelete) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/gesture-user?id=${id}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert(`Usuario con ID ${id} eliminado con éxito.`);
+                    row.remove(); // Eliminar la fila de la tabla sin recargar
+                    location.reload();
+                } else {
+                    alert(`Error al intentar eliminar al usuario con ID ${id}.`);
+                }
+            } catch (error) {
+                console.error("Error al eliminar el usuario:", error);
+                alert("Ocurrió un error inesperado.");
+            }
+        }
+    </script>
+</body>
+
+</html>

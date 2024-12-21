@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.javaguides.springboot.Models.Course;
 import net.javaguides.springboot.Service.CourseService;
+import net.javaguides.springboot.Service.UserServiceImplementation;
 
 @Controller
 @RequestMapping("/view-admin")
@@ -19,6 +20,9 @@ public class ControllerAdministrator {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private UserServiceImplementation userServiceImplementation;
+
     @GetMapping
     public String getMethodName(Model model) {
         model.addAttribute("totalCourses",
@@ -26,6 +30,9 @@ public class ControllerAdministrator {
         model.addAttribute(
                 "courses",
                 courseService.getAllCourseDTOs());
+        model.addAttribute(
+                "newApplicants",
+                userServiceImplementation.getNewApplicants());
         return "admin-view";
     }
 

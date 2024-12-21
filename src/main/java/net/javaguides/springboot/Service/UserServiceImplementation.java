@@ -3,21 +3,26 @@ package net.javaguides.springboot.Service;
 import javax.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import net.javaguides.springboot.DTO.ApplicantInfoDTO;
 import net.javaguides.springboot.DTO.RegisterCourseDTO;
 import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Detail.CustomUserDetails;
+import net.javaguides.springboot.Models.Administrator;
 import net.javaguides.springboot.Models.Applicant;
 import net.javaguides.springboot.Models.Course;
 import net.javaguides.springboot.Models.DepartamentUser;
 import net.javaguides.springboot.Models.Rol;
 import net.javaguides.springboot.Models.User;
+import net.javaguides.springboot.Presenters.ApplicantToApplicantInfoDTO;
 import net.javaguides.springboot.Presenters.UserRegistrationDTOToUserMapper;
 import net.javaguides.springboot.Repository.InterfaceCourseRepository;
 import net.javaguides.springboot.Repository.InterfaceRolRepository;
@@ -26,6 +31,7 @@ import net.javaguides.springboot.Repository.InterfaceUserRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImplementation implements InterfaceUserService {
@@ -42,6 +48,9 @@ public class UserServiceImplementation implements InterfaceUserService {
 
     @Autowired
     InterfaceCourseRepository courseRepository;
+
+    @Autowired
+    ApplicantToApplicantInfoDTO applicantToApplicantInfoDTO;
 
     @Override
     public User save(UserRegistrationDTO registrationDTO, Long rolId) {
@@ -79,6 +88,16 @@ public class UserServiceImplementation implements InterfaceUserService {
                     departamentUser.setPassword(user.getPassword());
                     departamentUser.setRol(rol);
                     return userRepository.save(departamentUser);
+
+                case 2:
+                    Administrator administrator = new Administrator();
+                    administrator.setName(user.getName());
+                    administrator.setLastName(user.getLastName());
+                    administrator.setEmail(user.getEmail());
+                    administrator.setPassword(user.getPassword());
+                    administrator.setRol(rol);
+                    return userRepository.save(administrator);
+
                 default:
                     break;
             }
@@ -135,11 +154,50 @@ public class UserServiceImplementation implements InterfaceUserService {
         Course course = courseRepository.findById(
                 registerCourseDTO.getCourseId()).orElseThrow();
 
-        applicant.getCourses().add(course);
-        course.getApplicants().add(applicant);
-        course.setAspirantLimit(
-                (byte) (course.getAspirantLimit() - 1));
-        this.userRepository.save(applicant);
+        if (course.getAspirantLimit() > 0) {
+            if (!(course.getApplicants().contains(applicant))) {
+                course.setAspirantLimit(
+                        (byte) (course.getAspirantLimit()
+                                - 1));
+            }
+
+            applicant.getCourses().add(course);
+            course.getApplicants().add(applicant);
+
+            this.userRepository.save(applicant);
+        }
+
     }
+
+    @Override
+    public Long getNewApplicants() {
+        return userRepository.countTotalApplicantCourseRelations();
+    }
+
+    @Override
+    public Boolean itIsRegistered(RegisterCourseDTO registerCourseDTO) {
+        Applicant applicant = (Applicant) userRepository.findById(
+                registerCourseDTO.getApplicantId()).orElseThrow();
+
+        Course course = courseRepository.findById(
+                registerCourseDTO.getCourseId()).orElseThrow();
+
+        return applicant.getCourses().contains(course);
+
+    }
+
+    @Override
+    public List<ApplicantInfoDTO> getAllApplicantInfoDTOs() {
+        return userRepository.findAllApplicants().stream().map(
+                applicantToApplicantInfoDTO::convertToDTO).collect(
+                        Collectors.toList());
+    }
+
+    @Override
+    public void deleteApplicantById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    
 
 }

@@ -13,13 +13,8 @@ public class FileUploadService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    private final Object lock = new Object();
-
     public void moveFileToTempDirectory(
             FileOperationMessage message) {
-        synchronized (lock) {
-            rabbitTemplate.convertAndSend("file_operations", message);
-        }
-
+        rabbitTemplate.convertAndSend("file_operations", message);
     }
 }

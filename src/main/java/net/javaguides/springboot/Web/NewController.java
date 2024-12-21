@@ -62,14 +62,6 @@ public class NewController {
         return "redirect:/upload-new";
     }
 
-    @DeleteMapping
-    public String deleteNews(@RequestParam("index") Integer index, Model model) {
-        List<NewsDTO> news = (List<NewsDTO>) model.getAttribute("savedNews");
-
-        NewsDTO newsDTO = news.get(index);
-
-        System.out.println(newsDTO.getId());
-        return "redirect:/upload-new";
-    }
+    
 
 }

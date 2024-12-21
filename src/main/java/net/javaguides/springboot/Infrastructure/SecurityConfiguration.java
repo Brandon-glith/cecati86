@@ -52,7 +52,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().headers().frameOptions().disable().and().authorizeRequests()
                 .antMatchers("/js/**", "/css/**", "/img/**", "/fonts/**").permitAll() // Archivos públicos
-                .antMatchers("/view-departament", "/register-course", "/upload-new").hasRole("DEPARTAMENTO") // protegidas
+                .antMatchers("/view-departament", "/register-course", "/upload-new")
+                .hasAnyRole("ADMINISTRADOR", "DEPARTAMENTO")
+                .antMatchers("/view-admin", "/gesture-user", "/managment-user")
+                .hasRole("ADMINISTRADOR") // protegidas
+                // protegidas
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

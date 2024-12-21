@@ -25,6 +25,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             response.sendRedirect("/view-departament");
         }
 
+        if (roles.contains("ROLE_ADMINISTRADOR")) {
+            response.sendRedirect("/view-admin");
+        }
+
         if (roles.contains("ROLE_ASPIRANTE")) {
             System.out.println("Entered into of this handler!");
             response.sendRedirect("/registration");

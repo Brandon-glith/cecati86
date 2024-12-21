@@ -17,7 +17,7 @@ import net.javaguides.springboot.ApplicationLayer.SaveFilePath;
 public class FileOperationConsumer {
 
     @RabbitListener(queues = "file_operations")
-    public  void processMessage(FileOperationMessage message) {
+    public void processMessage(FileOperationMessage message) {
         File file = new File("");
         String completeFilePath = "";
         System.out.println(message.getUserName());
@@ -31,13 +31,13 @@ public class FileOperationConsumer {
         try {
 
             if (!Files.exists(tempDir)) {
-                Files.createDirectories(tempDir);
                 System.out.println(
-                        "Directorio temporal creado en: " + tempDir.toAbsolutePath());
-
+                        "The temp folder "
+                                + "was created in: " + tempDir.toAbsolutePath());
+                Files.createDirectories(tempDir);
             }
         } catch (Exception e) {
-            System.out.println("No se pudo crear el directorio temporal.");
+            System.out.println("");
             e.printStackTrace();
         }
 
@@ -45,7 +45,7 @@ public class FileOperationConsumer {
                 message.getFileNameFromList() + ".pdf");
 
         try {
-
+            System.out.println("The complete path is: " + tempFile.toAbsolutePath());
             Files.write(
                     tempFile,
                     message.getFileData());

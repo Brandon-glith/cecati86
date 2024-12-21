@@ -29,7 +29,10 @@ import net.javaguides.springboot.ApplicationLayer.DeleteTempFile;
 import net.javaguides.springboot.ApplicationLayer.FileOperationMessage;
 import net.javaguides.springboot.ApplicationLayer.RequiredDocuments;
 import net.javaguides.springboot.Detail.CustomUserDetails;
+import net.javaguides.springboot.Models.Applicant;
 import net.javaguides.springboot.Models.User;
+import net.javaguides.springboot.Repository.InterfaceUserRepository;
+import net.javaguides.springboot.Service.CourseService;
 import net.javaguides.springboot.Service.FileOperationConsumer;
 import net.javaguides.springboot.Service.FileUploadProducer;
 import net.javaguides.springboot.Service.FileUploadService;
@@ -52,6 +55,9 @@ public class ControllerUploadDocumentation {
         private String courseName;
 
         @Autowired
+        InterfaceUserRepository interfaceUserRepository;
+
+        @Autowired
         private FileUploadProducer fileUploadProducer;
 
         @GetMapping
@@ -67,7 +73,15 @@ public class ControllerUploadDocumentation {
                                 .getAuthentication();
                 CustomUserDetails userDetails = (CustomUserDetails) authentication
                                 .getPrincipal();
+
                 user = userDetails.getUser();
+
+                if (interfaceUserRepository.existsByIdNative(
+                                user.getId()) == 1) {
+
+                        return "redirect:/registration?invalid";
+                }
+
                 megaServiceImplementation.createDirectory(courseName);
                 megaServiceImplementation.createDirectory(courseName + "/" +
                                 user.getName()
@@ -75,11 +89,6 @@ public class ControllerUploadDocumentation {
                 model.addAttribute("courseId", courseId);
                 model.addAttribute("applicantId", user.getId());
                 model.addAttribute("courseName", courseName);
-
-                System.out.println(
-                                "The actual course name is: "
-                                                + model.getAttribute(
-                                                                "courseName"));
                 return "upload-documentation";
         }
 
@@ -126,6 +135,7 @@ public class ControllerUploadDocumentation {
                 } catch (UnsupportedEncodingException e) {
                         e.printStackTrace(); // Manejar el error de codificación si es necesario
                 }
+
                 return "redirect:/upload-documentation?courseId="
                                 + courseId + "&courseName=" + encodedCourseName;
 

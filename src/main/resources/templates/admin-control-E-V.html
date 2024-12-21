@@ -195,10 +195,12 @@
         Documentos Aspirantes
       </a>
 
+
       <a th:href="@{/views-aspirants}">
         <i class="bi bi-people"></i>
         Aspirantes
       </a>
+
     </nav>
   </aside>
 
@@ -243,8 +245,8 @@
               <span class="text-muted">Aspirantes Activos</span>
               <i class="bi bi-people text-muted"></i>
             </div>
-            <h4 class="fw-bold mb-1">132</h4>
-            <small class="text-muted">28 nuevos</small>
+            <h4 class="fw-bold mb-1" th:text="${newApplicants}">132</h4>
+            <!--<small class="text-muted">28 nuevos</small>-->
           </div>
         </div>
       </div>

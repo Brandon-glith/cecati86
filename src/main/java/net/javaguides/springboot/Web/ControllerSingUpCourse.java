@@ -24,9 +24,6 @@ public class ControllerSingUpCourse {
             @RequestParam("courseId") Long courseId) {
 
         RegisterCourseDTO registerCourseDTO = new RegisterCourseDTO();
-        System.out.println("The applicant id: " + applicantId);
-        System.out.println("The course id: " + courseId);
-
         registerCourseDTO.setApplicantId(applicantId);
         registerCourseDTO.setCourseId(courseId);
 

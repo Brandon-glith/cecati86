@@ -14,20 +14,16 @@ public class MegaUtilsImplementation implements InterfaceMegaUtils {
     @Override
     public int executeComandMegaCMD(List<String> megaCMDComands)
             throws IOException, InterruptedException {
-        
-            ProcessBuilder reloadProcess = new ProcessBuilder("mega-reload");
-            Process reload = reloadProcess.start();
-            reload.waitFor(5000, TimeUnit.MILLISECONDS);
-            ProcessBuilder processBuilder = new ProcessBuilder(megaCMDComands);
-            Process process = processBuilder.start();
-            Boolean succeeded = process.waitFor(30000, TimeUnit.MILLISECONDS);
-            processOutput = new String(
-                    process.getInputStream().readAllBytes(),
-                    StandardCharsets.UTF_8);
-            System.out.println("The output is: " + getProcessOutput());
+        ProcessBuilder processBuilder = new ProcessBuilder(megaCMDComands);
+        Process process = processBuilder.start();
+        Boolean succeeded = process.waitFor(30000, TimeUnit.MILLISECONDS);
+        processOutput = new String(
+                process.getInputStream().readAllBytes(),
+                StandardCharsets.UTF_8);
+        System.out.println("The output is: " + getProcessOutput());
 
-            return succeeded ? process.exitValue() : -1;
-        
+        return succeeded ? process.exitValue() : -1;
+
     }
 
     @Override

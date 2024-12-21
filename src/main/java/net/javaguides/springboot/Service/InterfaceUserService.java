@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import net.javaguides.springboot.DTO.ApplicantInfoDTO;
+import net.javaguides.springboot.DTO.NewsDTO;
 import net.javaguides.springboot.DTO.RegisterCourseDTO;
 import net.javaguides.springboot.DTO.UserRegistrationDTO;
 import net.javaguides.springboot.Models.Applicant;
@@ -20,4 +22,14 @@ public interface InterfaceUserService extends UserDetailsService {
             String password);
 
     void signUpCourse(RegisterCourseDTO courseDTO);
+
+    Long getNewApplicants();
+
+    Boolean itIsRegistered(RegisterCourseDTO registerCourseDTO);
+
+    List<ApplicantInfoDTO> getAllApplicantInfoDTOs();
+
+    void deleteApplicantById(Long id);
+
+    
 }

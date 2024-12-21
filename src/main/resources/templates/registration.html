@@ -96,6 +96,9 @@
                     <div class="alert alert-info">Bienvenido, <span sec:authentication="principal.username"></span>!
                     </div>
                   </div>
+                  <div th:if="${param.invalid}">
+                    <div class="alert alert-info">Error no puedes inscribirte a más cursos</div>
+                  </div>
                   <h1 data-aos="fade-up" data-aos-delay="100">Capacítate para el empleo de tus sueños, empieza hoy</h1>
                   <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Misión: Otorgar a los particulares el
                     reconocimiento de validez oficial de estudios, contribuyendo al fomento de la calidad y
@@ -125,6 +128,7 @@
                     <div th:if="${param.success}">
                       <div class="alert alert-info">Registro exitoso</div>
                     </div>
+
 
                     <!-- logout message -->
                     <div th:if="${param.logout}">

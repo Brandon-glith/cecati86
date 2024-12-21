@@ -72,4 +72,6 @@ public class Applicant extends User {
         this.courses = courses;
     }
 
+    
+
 }

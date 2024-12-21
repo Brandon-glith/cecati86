@@ -37,11 +37,9 @@ public class MegaServiceImplementation implements InterfaceMegaService {
 
     @Override
     public void uploadFile(FileOperationMessage fileOperationMessage) {
-        
         executor.submit(() -> {
             fileUploadService.moveFileToTempDirectory(fileOperationMessage);
         });
-
     }
 
 }

@@ -281,18 +281,9 @@
         let index = 0;
         let lenght = document.getElementById("quantity-news").value;
 
-        document.getElementById("delete-new").addEventListener(
-            'click',
-            async function (e) {
-                let value = openDialog();
-
-                if (value) {
-                    deleteNews(index);
-                }
-            });
-
 
         function deleteNews(index) {
+
             fetch('/upload-new', {
                 method: 'DELETE',
                 headers: {
@@ -301,12 +292,7 @@
                 body: JSON.stringify({ index: index })
             })
                 .then(response => {
-                    if (response.ok) {
-                        console.log("News deleted successfully!");
-                        window.location.href = "/upload-new";
-                    } else {
-                        console.error("Failed to delete news.");
-                    }
+
                 })
                 .catch(error => console.error('Error:', error));
         }
@@ -336,6 +322,40 @@
                 index = 0;
             }
         }
+
+        document.getElementById("delete-new").addEventListener(
+            'click',
+            async function (e) {
+                e.preventDefault();
+                let value = await openDialog();
+                formData = new FormData();
+                formData.append('index', index);
+                if (value) {
+                    const url = `/upload-new?index=${index}`; // La URL debe coincidir con la del controlador
+
+                    try {
+
+                        const response = await fetch('/delete-new', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            // Respuesta exitosa, la noticia ha sido eliminada
+                            console.log('Noticia eliminada correctamente');
+                            window.location.href = '/upload-new'; // Redirige a la vista actualizada
+                        } else {
+                            // Error en el servidor
+                            console.error('Error en la eliminación de la noticia:', response.status);
+                        }
+                    } catch (error) {
+                        // Error en la solicitud
+                        console.error('Error de red:', error);
+                    }
+                }
+            });
+
+
         document.addEventListener('DOMContentLoaded', function () {
             const carousel = new bootstrap.Carousel(
                 document.getElementById(

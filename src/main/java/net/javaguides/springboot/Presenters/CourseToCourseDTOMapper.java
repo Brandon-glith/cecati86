@@ -24,6 +24,7 @@ public class CourseToCourseDTOMapper implements InterfaceEntityToDTOMapper<Cours
         dto.setImagePath(course.getImagePath());
         dto.setAspirantLimit(course.getAspirantLimit());
         dto.setId(course.getId());
+        dto.setApplicants(course.getApplicants());
         return dto;
     }
 

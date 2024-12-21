@@ -2,6 +2,7 @@ package net.javaguides.springboot.DTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import net.javaguides.springboot.ApplicationLayer.ValidDateRange;
+import net.javaguides.springboot.Models.Applicant;
 
 @ValidDateRange
 public class CourseDTO {
@@ -37,6 +39,8 @@ public class CourseDTO {
     private String imagePath;
     @Positive(message = "El limite de aspirantes debe ser positivo.")
     private byte aspirantLimit;
+
+    private Set<Applicant> applicants;
 
     // Getters y Setters
 
@@ -133,6 +137,14 @@ public class CourseDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Applicant> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(Set<Applicant> applicants) {
+        this.applicants = applicants;
     }
 
 }
