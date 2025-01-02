@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -16,8 +18,8 @@ import net.javaguides.springboot.ApplicationLayer.SaveFilePath;
 @Component
 public class FileOperationConsumer {
 
-    @RabbitListener(queues = "file_operations")
     public void processMessage(FileOperationMessage message) {
+
         File file = new File("");
         String completeFilePath = "";
         System.out.println(message.getUserName());
@@ -57,12 +59,14 @@ public class FileOperationConsumer {
         }
 
         String path = tempFile.toAbsolutePath().toString();
+        System.out.println("Path completed for upload is: " + path);
         MegaCMDPut cmdPut = new MegaCMDPut(
                 path, message.getFileName());
         cmdPut.run();
 
         DeleteTempFile deleteTempFile = new DeleteTempFile();
         deleteTempFile.deleteTempFile(path);
+        
 
     }
 

@@ -15,6 +15,7 @@ public class FileUploadService {
 
     public void moveFileToTempDirectory(
             FileOperationMessage message) {
-        rabbitTemplate.convertAndSend("file_operations", message);
+        FileOperationConsumer fileOperationConsumer = new FileOperationConsumer();
+        fileOperationConsumer.processMessage(message);
     }
 }

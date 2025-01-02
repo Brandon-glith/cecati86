@@ -48,8 +48,6 @@ public class ControllerUploadDocumentation {
         @Autowired
         private HttpSession session;
 
-        private User user;
-
         private Long courseId;
 
         private String courseName;
@@ -67,14 +65,12 @@ public class ControllerUploadDocumentation {
                         Model model) {
                 session.setAttribute("courseId", courseId);
                 session.setAttribute("courseName", courseName);
-
                 Authentication authentication = SecurityContextHolder
                                 .getContext()
                                 .getAuthentication();
                 CustomUserDetails userDetails = (CustomUserDetails) authentication
                                 .getPrincipal();
-
-                user = userDetails.getUser();
+                User user = userDetails.getUser();
 
                 if (interfaceUserRepository.existsByIdNative(
                                 user.getId()) == 1) {
@@ -95,12 +91,23 @@ public class ControllerUploadDocumentation {
         @PostMapping
         public String postMethodName(@RequestParam("file") MultipartFile file,
                         @RequestParam("index") Integer index, Model model) {
+                Authentication authentication = SecurityContextHolder
+                                .getContext()
+                                .getAuthentication();
+                CustomUserDetails userDetails = (CustomUserDetails) authentication
+                                .getPrincipal();
+                User user = userDetails.getUser();
 
                 System.out.println("The actual index is: " + index);
                 courseId = (Long) session.getAttribute("courseId");
                 this.courseName = (String) session.getAttribute("courseName");
                 System.out.println("The course name is: " + courseName);
-
+                System.out.println(
+                                user.getName()
+                                                + " " + user.getId()
+                                                + "\n"
+                                                + file.getOriginalFilename()
+                                                + " " + (file.getSize() / 1024));
                 String nameDirectory = courseName
                                 + "/" + user.getName() + " " + user.getLastName();
                 FileOperationMessage fileOperationMessage = new FileOperationMessage();

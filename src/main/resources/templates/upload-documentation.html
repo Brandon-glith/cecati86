@@ -555,6 +555,7 @@
 
           if (response.ok) {
             count++;
+            alert((fileInput.files[0].size) / 1024);
             fileInput.value = "";
             document.getElementById("alert-file").textContent = "";
             document.getElementById("index-document").textContent = documents[count];

@@ -18,43 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class CreateTempFile {
 
-        private File file = new File("");
+        public void createTempFolder() {
 
-        public String processMessage(FileOperationMessage message) {
-                String completePath = this.file
-                                .getAbsolutePath() + "/"
-                                + message.getUserName();
-
-                Path tempDir = Paths.get(completePath);
-
-                try {
-
-                        if (!Files.exists(tempDir)) {
-                                Files.createDirectories(tempDir);
-                                System.out.println(
-                                                "Directorio temporal creado en: " + tempDir.toAbsolutePath());
-
-                        }
-                } catch (Exception e) {
-                        System.out.println("No se pudo crear el directorio temporal.");
-                        e.printStackTrace();
-                }
-
-                Path tempFile = tempDir.resolve(
-                                message.getFileNameFromList() + ".pdf");
-
-                try {
-
-                        Files.write(
-                                        tempFile,
-                                        message.getFileData());
-                        System.out.println("Temp file created satisfactorily!");
-
-                } catch (Exception e) {
-                        System.out.println("File was not possible move to file path!");
-                        e.printStackTrace();
-                }
-
-                return tempFile.toAbsolutePath().toString();
         }
 }
